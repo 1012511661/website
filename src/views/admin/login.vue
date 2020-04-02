@@ -2,7 +2,7 @@
     <div class='login'>
         <div class="login-center">
             <!--左边图片-->
-            <img class="login-l-img" src="../../assets/login_bg.jpg">
+            <img class="login-l-img" src="../../assets/login_bg.jpg" style="margin-right: 3px;">
             <!--右边登录-->
             <div class="login-r-div">
                 <h1>登录</h1>
@@ -67,6 +67,7 @@
         .center();
         height: 100vh;
         position: relative;
+        background-color: #F5F8FA;
     }
 
     .login-center {
