@@ -17,6 +17,7 @@
     </div>
 </template>
 
+
 <script>
     import LogoSearch from "./logo-search"
     import HeaderNav from './header-nav'
