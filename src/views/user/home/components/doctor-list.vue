@@ -59,7 +59,7 @@
             getDoctor() {
                 GetRegion().then(res => {
                     if (res.status) {
-                        this.tabList = res.data || [];
+                        this.tabList = res.data|| [];
                         this.getDoctorList(res.data[0].regionId)
                     } else {
                         this.$Notice.warning({title: '错误', desc: res.msg})
@@ -123,9 +123,11 @@
 
         .tabs-wrap {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            flex-wrap:nowrap;
             overflow-x: auto;
-            width: 100vw;
+            width: 100%;
+            text-align: center;
             .tab {
                 width: 120px;
                 height: 32px;
@@ -134,7 +136,7 @@
                 font-weight: bold;
                 .center();
                 cursor: pointer;
-                flex: none;
+                flex:1 0 auto;
             }
 
             .active {
