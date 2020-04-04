@@ -5,7 +5,7 @@
                 <div :class="{'comp-cell':true, 'video-cell':!isShowSmall}">
                     <div class="title-warp video-title">
                         <span class="title">公司简介</span>
-                        <i class="icon-more" style="">更多>></i>
+<!--                        <i class="icon-more" style="">更多>></i>-->
                     </div>
                     <video src="https://www.w3school.com.cn/i/movie.ogg" controls="controls" class="video" width="100%"
                            height="250px"

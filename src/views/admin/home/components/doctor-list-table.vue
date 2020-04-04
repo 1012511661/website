@@ -3,7 +3,7 @@
         <AdminSearch @on-search="onSearch" @on-add-item="onAddItem"></AdminSearch>
         <Table :columns="columns" :data="dataList"></Table>
         <DoctorListModal v-model="showListModal" @upload-doctor-list="onUploadList" :len="dataList.length"
-                         :title="id?'修改':'添加'" ref="DoctorListModal"></DoctorListModal>
+                         :title="infoFrom.regionId?'修改':'添加'" :infoData="infoFrom" ref="DoctorListModal"></DoctorListModal>
     </div>
 </template>
 
@@ -35,7 +35,6 @@
             let operationRender = operation(operationList);
             return {
                 showListModal: false,
-                id: null,
                 columns: [
                     {
                         title: '序号',
@@ -55,7 +54,8 @@
                         width: 200
                     }
                 ],
-                dataList: []
+                dataList: [],
+                infoFrom: {}
             }
         },
         methods: {
@@ -71,16 +71,13 @@
             },
             onAddItem() {
                 this.showListModal = true;
-                this.id = null;
             },
             onUploadList() {
                 this.init()
             },
             onEdit(params) {
                 this.showListModal = true;
-                this.id = params.id;
-                this.$refs.DoctorListModal.listFrom = deepCopy(params);
-                window.console.log(params, 'params')
+                this.infoFrom = params;
             },
             onUser(params) {
                 this.$emit('show-user-table', params)

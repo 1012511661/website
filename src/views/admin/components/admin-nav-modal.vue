@@ -5,10 +5,10 @@
                 <FormItem label="名称" prop="menuName">
                     <Input v-model="navFrom.menuName" placeholder="请输入名称" :maxlength="32" class="input"/>
                 </FormItem>
-                <FormItem label="类型" prop="type">
-                    <Select v-model.trim="navFrom.type" class="input">
-                        <Option v-for="item in typeList" :key="item.value" :value="item.value">
-                            {{item.label}}
+                <FormItem label="类型" prop="menuType">
+                    <Select v-model.trim="navFrom.menuType" class="input">
+                        <Option v-for="item in typeCodeLst" :key="item.typeId" :value="item.typeId">
+                            {{item.typeName}}
                         </Option>
                     </Select>
                 </FormItem>
@@ -23,6 +23,7 @@
 <script>
     import AdminModal from '../../../components/web-modal'
     import {typeCode} from "../../../js/code";
+    import {PutMenuUpdate} from "../../../api/web";
 
     export default {
         name: "admin-nav-modal",
@@ -42,30 +43,12 @@
         },
         components: {AdminModal},
         data() {
-            this.typeList = [
-                {
-                    value: '0',
-                    label: '图片列表'
-                },
-                {
-                    value: '1',
-                    label: '视频列表'
-                },
-                {
-                    value: '2',
-                    label: '文章列表'
-                },
-                {
-                    value: '3',
-                    label: '单个文章'
-                }
-            ]
             return {
                 showModal: this.value,
                 navFrom: {
                     menuName: '',
                     menuNumber: 0,
-                    type: '',
+                    menuType: '',
                 },
                 navRuleValidate: {
                     menuName: [
@@ -74,8 +57,8 @@
                     menuNumber: [
                         {required: true, message: ' ', trigger: 'blur', type: 'number',},
                     ],
-                    type: [
-                        {required: true, message: ' ', trigger: 'blur'}
+                    menuType: [
+                        {required: true, message: ' ', trigger: 'change', type: "number"}
                     ],
                 },
                 typeCodeLst: typeCode
@@ -88,7 +71,7 @@
                     this.navFrom = {
                         menuName: '',
                         menuNumber: 0,
-                        type: '',
+                        menuType: 0,
                     }
                 }
             },
@@ -98,12 +81,19 @@
         },
         methods: {
             onSave() {
-                this.$refs.userFrom.validate((valid) => {
+                this.$refs.navFrom.validate((valid) => {
                     if (valid) {
-                        this.showModal = false;
-                        this.$emit('upload-nav-table')
+                        PutMenuUpdate().then(res=>{
+                            if(res.status){
+                                this.showModal = false;
+                                this.$emit('upload-nav-table')
+                            }else{
+
+                            }
+                        })
+
                     } else {
-                        this.$Message.error('Fail!');
+                        this.$Notice.warning({title: '错误', desc: '请填写正确信息'})
                     }
                 })
             }

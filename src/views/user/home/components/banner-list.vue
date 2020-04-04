@@ -3,12 +3,9 @@
         <Carousel autoplay v-model="msg" loop @on-click="onClickCar">
             <template v-for="(item,index) in bannerList">
                 <CarouselItem :key="index">
-                    <div class="demo-carousel"
-                    >
-                        <!--                        :style="{background: `url(${item.src}) center center no-repeat`,backgroundSize:'auto 100%'}"-->
+                    <div class="demo-carousel">
                         <img :src="item" alt="" style=" object-fit: cover; width: 100%; height: 100%;">
                     </div>
-                    <!--                    :style="{background: `url(${item.src}) 50% 0 no-repeat`}"></div>-->
                 </CarouselItem>
             </template>
         </Carousel>
@@ -42,6 +39,7 @@
 
 <style lang='less' scoped>
     .demo-carousel {
-        max-height: 400px;
+        max-height: 400px !important;
+        overflow: hidden;
     }
 </style>

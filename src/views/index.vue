@@ -1,5 +1,5 @@
 <template>
-    <div class=''>
+    <div class='index'>
         <router-view></router-view>
     </div>
 </template>
@@ -15,6 +15,10 @@
     }
 </script>
 
-<style lang='sass' scoped>
+<style lang='less' scoped>
     //@import url($3); 引入公共css类
+    .index {
+        width: 100vw;
+        overflow-x: hidden;
+    }
 </style>

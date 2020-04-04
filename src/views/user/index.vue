@@ -13,7 +13,7 @@
             <FooterWarp></FooterWarp>
         </footer>
         <!--分享 -->
-        <UserShare></UserShare>
+<!--        <UserShare></UserShare>-->
     </div>
 </template>
 

@@ -1,8 +1,8 @@
 <template>
     <div class='banner-modal'>
         <template v-for="(item,index) in defaultList">
-            <div class="home-banner-upload-list" :key="index">
-                <img :src="item">
+            <div class="home-banner-upload-list" :key="index" :style="{width:`${widthImg}px`,height:`${heightImg}px`}">
+                <img :src="item" :onerror="errImg">
             </div>
         </template>
         <Upload
@@ -43,14 +43,28 @@
                 type: String,
                 default: ''
             },
+            widthImg: {
+                type: Number,
+                default: 300
+            },
+            heightImg: {
+                type: Number,
+                default: 180
+            },
         },
         data() {
             return {
                 formInfo: {},
+                errImg: 'this.src="' + require('../../../assets/banner1.jpg') + '"'
             }
         },
         watch: {},
         methods: {
+            imgError() {
+                var img = event.srcElement;
+                img.src = "http://placehold.it/600x300/0f0/ccc.png";
+                img.onerror = null;
+            },
             // 成功
             handleSuccess(res, file) {
                 file.url = 'https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large';
@@ -80,15 +94,7 @@
 <style lang='less' scoped>
     .home-banner-upload-list {
         display: inline-block;
-        width: 300px;
-        text-align: center;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        overflow: hidden;
-        background: #fff;
-        position: relative;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-        margin-right: 4px;
+        margin-right: 10px;
 
         img {
             width: 100%;

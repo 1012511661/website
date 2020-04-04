@@ -1,13 +1,11 @@
 <template>
     <div class='home'>
-        <div>
-            <!-- 轮播 -->
-            <BannerList :bannerList="bannerList"></BannerList>
-            <!-- 公司动态 -->
-            <CompUpload></CompUpload>
-            <!-- 医生 -->
-            <DoctorList></DoctorList>
-        </div>
+        <!-- 轮播 -->
+        <BannerList :bannerList="bannerList"></BannerList>
+        <!-- 公司动态 -->
+        <CompUpload></CompUpload>
+        <!-- 医生 -->
+        <DoctorList></DoctorList>
         <!-- foot-->
         <div></div>
     </div>

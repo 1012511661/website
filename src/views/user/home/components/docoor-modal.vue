@@ -80,7 +80,7 @@
                         // this.showModal = false;
                         // this.$emit('upload-nav-table')
                     } else {
-                        this.$Message.error('请填写正确信息');
+                        this.$Notice.warning({title: '错误', desc: '请填写正确信息'})
                     }
                 })
             }

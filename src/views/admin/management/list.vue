@@ -18,16 +18,6 @@
         data() {
             let operationList = [
                 {
-                    title: '隐藏', key: 'menuShow', hide: true, onClick: (params) => {
-                        this.onShow(params.row, 0)
-                    }
-                },
-                {
-                    title: '显示', key: 'menuView', hide: true, onClick: (params) => {
-                        this.onShow(params.row, 1)
-                    }
-                },
-                {
                     title: '修改', key: 'menuEdit', hide: true, onClick: (params) => {
                         this.onEdit(params.row)
                     }
@@ -53,14 +43,19 @@
                         width: 100
                     },
                     {
+                        title: '是否显示',
+                        key: 'menuShowType',
+                        width: 100
+                    },
+                    {
                         title: '封面地址',
                         key: 'pictures',
-                        minWidth: 200
+                        minWidth: 300
                     },
                     {
                         title: '操作',
                         render: operationRender,
-                        width: 200
+                        width: 100
                     }
                 ],
                 dataList: []
@@ -81,9 +76,9 @@
                                 menuName: item.menuName,
                                 menuNumber: item.menuNumber,
                                 menuPicture: item.menuPicture,
-                                menuShow: item.menuShow && index !== 0,
-                                menuView: !item.menuShow && index !== 0,
                                 menuEdit: true && index !== 0,
+                                menuShowType: item.menuShow ? '是' : '否',
+                                menuShow: item.menuShow ? 1 : 0,
                                 pictures: index == 0 ? '' : item.pictures[0],
                             }
                         })
@@ -93,18 +88,12 @@
                 })
             },
             uploadManage() {
-                window.console.log('请求栏目管理接口')
+                this.getDataList();
             },
             onEdit(params) {
                 this.showModal = true;
                 this.id = params.id;
                 this.$refs.ManageModal.manageFrom = deepCopy(params);
-            },
-            onShow(params, num) {
-                // this.$emit('show-user-table', params)
-            },
-            onView(params) {
-                // this.$emit('show-user-table', params)
             }
         },
         mounted() {

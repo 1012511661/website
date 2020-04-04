@@ -124,7 +124,8 @@
         .tabs-wrap {
             display: flex;
             justify-content: center;
-
+            overflow-x: auto;
+            width: 100vw;
             .tab {
                 width: 120px;
                 height: 32px;
@@ -133,6 +134,7 @@
                 font-weight: bold;
                 .center();
                 cursor: pointer;
+                flex: none;
             }
 
             .active {

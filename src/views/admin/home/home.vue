@@ -16,18 +16,6 @@
                 </template>
             </div>
         </Card>
-        <!-- 公司介绍 -->
-        <Card class="card-warp">
-            <p slot="title">
-                <Icon type="ios-home"/>
-                公司介绍
-            </p>
-            <Button slot="extra" type="primary" @click="goEditPro">编辑</Button>
-            <div class="banner-list">
-                <video :src="videoSrc" controls="controls" width="30%"
-                       height="100%"></video>
-            </div>
-        </Card>
         <!-- 百强名医录 -->
         <Card class="card-warp">
             <p slot="title">
@@ -40,13 +28,13 @@
         <Card class="card-warp">
             <p slot="title">
                 <Icon type="logo-twitter"/>
-                页面底部
+                公司信息
             </p>
             <Button slot="extra" type="primary" @click="goEditFoot">编辑</Button>
-            <FooterWarp ref="FooterWarp"></FooterWarp>
+            <FooterWarp ref="FooterWarp" ></FooterWarp>
         </Card>
-        <BannerModal v-model="showBannerModal" :defaultList="bannerList" @upload-order-list="uploadBannerlist"></BannerModal>
-        <ProjectModal v-model="showProModal" @upload-project="uploadProject" ref="ProjectModal"></ProjectModal>
+        <BannerModal v-model="showBannerModal" :defaultList="bannerList"
+                     @upload-order-list="uploadBannerlist"></BannerModal>
         <FooterModal v-model="showFooterModal" @upload-footer="uploadFooter" ref="FooterModal"></FooterModal>
     </div>
 </template>
@@ -54,7 +42,6 @@
 <script>
     import AdminFootBtns from '../components/admin-foot-btns'
     import BannerModal from './components/banner-modal'
-    import ProjectModal from './components/project-modal'
     import DoctorWarp from './components/doctor-warp'
 
     import FooterWarp from './components/footer-warp'
@@ -67,7 +54,6 @@
         components: {
             AdminFootBtns,
             BannerModal,
-            ProjectModal,
             DoctorWarp,
             FooterWarp,
             FooterModal
@@ -98,7 +84,8 @@
                         id: 4
                     }
                 ],
-                videoSrc: 'https://www.w3school.com.cn/i/movie.ogg'
+                videoSrc: 'https://www.w3school.com.cn/i/movie.ogg',
+                companyInfo: {}
             }
         },
         computed: {},
@@ -117,13 +104,9 @@
             // 公司信息
             goEditPro() {
                 this.showProModal = true;
-                window.console.log(this.videoSrc, 'this.videoSrc')
                 this.$refs.ProjectModal.proFrom = {
                     src: this.videoSrc
                 }
-            },
-            uploadProject() {
-                window.console.log('更新 公司信息')
             },
             // foot
             goEditFoot() {
@@ -131,7 +114,7 @@
                 this.$refs.FooterModal.infoFrom = deepCopy(this.$refs.FooterWarp.infoFrom)
             },
             uploadFooter() {
-                window.console.log('更新 footer')
+                this.$refs.FooterWarp.init();
             }
         },
         mounted() {

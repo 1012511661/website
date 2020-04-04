@@ -1,17 +1,34 @@
 <template>
     <AdminModal v-model="showModal" :title="title" @on-ok="onSave">
         <div class="manage-content">
-            <Form ref="manageFrom" :model="manageFrom" :rules="manageRuleValidate" :label-width="80">
-                <FormItem label="栏目名" prop="menuName">
-                    <Input v-model="manageFrom.menuName" placeholder="请输入名称" :maxlength="32" class="input"/>
-                </FormItem>
-                <FormItem label="排序" prop="menuNumber">
-                    <InputNumber v-model="manageFrom.menuNumber" :max="999" :min="1"/>
-                </FormItem>
-                <FormItem label="封面">
-                    <AdminUpload :defaultList="[manageFrom.pictures]" footTitle="图片尺寸 150*185"></AdminUpload>
-                </FormItem>
-            </Form>
+            <AdminTabs class="tabs" :current="activeId"
+                       :tabs="['栏目信息', '栏目图片']"
+                       @on-change="onClick"></AdminTabs>
+            <div style="margin-top: 20px"></div>
+            <template v-if="!activeId">
+                <Form ref="manageFrom" :model="manageFrom" :rules="manageRuleValidate" :label-width="80">
+                    <FormItem label="栏目名" prop="menuName">
+                        <Input v-model="manageFrom.menuName" placeholder="请输入名称" :maxlength="32" class="input"/>
+                    </FormItem>
+                    <FormItem label="排序" prop="menuNumber">
+                        <InputNumber v-model="manageFrom.menuNumber" :max="999" :min="1"/>
+                    </FormItem>
+                    <FormItem label="是否显示" prop="menuShow">
+                        <RadioGroup v-model="manageFrom.menuShow">
+                            <Radio :label=1>
+                                <span>是</span>
+                            </Radio>
+                            <Radio :label=0>
+                                <span>否</span>
+                            </Radio>
+                        </RadioGroup>
+                    </FormItem>
+                </Form>
+            </template>
+            <template v-else>
+                <AdminUpload :multiple="false" :defaultList="[manageFrom.menuPicture]"
+                             footTitle="图片尺寸 1920*200"></AdminUpload>
+            </template>
         </div>
     </AdminModal>
 </template>
@@ -19,6 +36,8 @@
 <script>
     import AdminModal from '../../../../components/web-modal'
     import AdminUpload from '../../components/admin-upload'
+    import {PutMenuUpdate} from '../../../../api/web'
+    import AdminTabs from '../../components/admin-tabs'
 
     export default {
         name: "manage-moadl",
@@ -36,13 +55,16 @@
                 default: 1
             }
         },
-        components: {AdminModal, AdminUpload},
+        components: {AdminModal, AdminUpload, AdminTabs},
         data() {
             return {
                 showModal: this.value,
+                activeId: 0,
                 manageFrom: {
                     menuName: '',
                     menuNumber: this.len + 1,
+                    menuShow: 1,
+                    menuPicture: ''
                 },
                 manageRuleValidate: {
                     menuName: [
@@ -50,6 +72,9 @@
                     ],
                     menuNumber: [
                         {required: true, message: '', trigger: 'blur', type: 'number',},
+                    ],
+                    menuShow: [
+                        {required: true, message: ' ', trigger: 'blur', type: "number"}
                     ],
                 },
                 uploadList: [ //上传返回的列表
@@ -63,9 +88,11 @@
             showModal(newV) {
                 this.$emit("input", newV);
                 if (!newV) {
+                    this.$refs.manageFrom.resetFields()
                     this.listFrom = {
                         menuName: '',
-                        menuNumber: this.len + 1
+                        menuNumber: this.len + 1,
+                        menuShow: 1
                     }
                 }
             },
@@ -74,13 +101,23 @@
             },
         },
         methods: {
+            onClick(index) {
+                window.console.log(index,'123')
+                this.activeId = index;
+            },
             onSave() {
-                this.$refs.userFrom.validate((valid) => {
+                this.$refs.manageFrom.validate((valid) => {
                     if (valid) {
-                        this.showModal = false;
-                        this.$emit('upload-manage')
+                        PutMenuUpdate(this.manageFrom).then(res => {
+                            if (res.status) {
+                                this.showModal = false;
+                                this.$emit('upload-manage')
+                            } else {
+                                this.$Notice.warning({title: '错误', desc: res.msg})
+                            }
+                        })
                     } else {
-                        this.$Message.error('Fail!');
+                        this.$Notice.warning({title: '错误', desc: '请填写正确信息'})
                     }
                 })
             }

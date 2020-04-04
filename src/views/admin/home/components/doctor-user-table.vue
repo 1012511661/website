@@ -4,7 +4,7 @@
                      @on-back-item="onBack"></AdminSearch>
         <Table :columns="columns" :data="dataList"></Table>
         <DoctorUserModal v-model="showUserModal" @upload-doctor-user="onUploadUser"
-                         :title="id?'修改':'添加'" ref="DoctorUserModal"></DoctorUserModal>
+                         :title="id?'修改':'添加'" :regionId="regionId" ref="DoctorUserModal"></DoctorUserModal>
     </div>
 </template>
 <script>
@@ -12,7 +12,7 @@
     import AdminSearch from '../../../../components/web-search'
     import DoctorUserModal from './doctor-user-modal'
     import {operation} from "../../../../js/render";
-    import {GetRegionId} from '../../../../api/web'
+    import {GetRegionId,DelCadId} from '../../../../api/web'
     import {deepCopy} from "../../../../js/common";
 
     export default {
@@ -59,14 +59,15 @@
                         width: 200
                     }
                 ],
-                dataList: []
+                dataList: [],
+                regionId: null
             }
         },
         computed: {},
         watch: {},
         methods: {
             getDataList(id) {
-                window.console.log(id, 'id')
+                this.regionId = id;
                 GetRegionId(id).then(res => {
                     if (res.status) {
                         this.dataList = res.data || []
@@ -79,19 +80,27 @@
             onAddItem() {
                 this.showUserModal = true;
                 this.id = null;
-                window.console.log('添加')
             },
             onUploadUser() {
-                window.console.log('请求百强医生用户接口')
+                this.getDataList(this.regionId);
             },
             onEdit(params) {
                 this.showUserModal = true;
-                this.id = params.id;
+                this.id = params.cdId;
                 this.$refs.DoctorUserModal.infoFrom = deepCopy(params);
-                window.console.log(params, '编辑')
             },
             onDel(params) {
-                window.console.log(params, '删除')
+                this.$Modal.confirm({
+                    title: '確定刪除？',
+                    onOk: () => {
+                        DelCadId (params.cdId).then(res => {
+                            if (res.status) {
+                                this.$Notice.success('刪除成功');
+                                this. getDataList(this.regionId);
+                            }
+                        })
+                    }
+                })
             },
             onBack() {
                 this.$emit('show-List-table')

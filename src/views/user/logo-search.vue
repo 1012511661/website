@@ -50,7 +50,7 @@
 
         .search-input {
             width: 200px;
-            /*margin-top: 10vw;*/
+            margin-right: 5px;
         }
     }
 </style>

@@ -65,7 +65,6 @@
             onSave() {
                 this.showModal = false;
                 this.$emit('upload-order-list');
-                window.console.log('请求数据')
             },
 
         },

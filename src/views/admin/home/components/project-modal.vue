@@ -57,7 +57,7 @@
                         this.showModal = false;
                         this.$emit('upload-project');
                     } else {
-                        this.$Message.error('Fail!');
+                        this.$Notice.warning({title: '错误', desc: '请填写正确信息'})
                     }
                 })
             }

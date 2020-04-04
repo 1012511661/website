@@ -26,6 +26,8 @@
 
 <script>
     import {TOKEN} from "../../js/storage";
+    import {PutUserLogin} from '../../api/web'
+    import md5 from "md5"
 
     export default {
         name: "login",
@@ -49,9 +51,24 @@
             onLogin() {
                 this.$refs.loginForm.validate(valid => {
                     if (valid) {
-                        let _math = Math.random() * 10;
-                        TOKEN.set(_math);
-                        this.$router.replace("/admin");
+                        window.console.log({
+                            email: this.loginForm.email,
+                            password: md5(this.loginForm.password)
+                        },'123')
+                        PutUserLogin({
+                            email: this.loginForm.email,
+                            password: md5(this.loginForm.password)
+                        }).then(res => {
+                            if (res.status) {
+                                let _math = Math.random() * 10;
+                                TOKEN.set(_math);
+                                this.$router.replace("/admin");
+                            } else {
+                                this.$Notice.warning({title: '错误', desc: res.msg})
+                            }
+                        })
+                    }else{
+                        this.$Notice.warning({title: '错误', desc: '请填写正确信息'})
                     }
                 })
             }

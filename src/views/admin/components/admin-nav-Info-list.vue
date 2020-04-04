@@ -3,7 +3,7 @@
         <AdminSearch :isShowBack="true" @on-search="onSearch" @on-add-item="onAddItem"
                      @on-back-item="onBackItem"></AdminSearch>
         <Table :columns="columns" :data="dataList"></Table>
-        <AdminNavInfoModal v-model="showModal" @upload-nav-table="uploadInfoList"
+        <AdminNavInfoModal v-model="showModal" :menuId="menuId" :info="info" @upload-nav-table="uploadInfoList"
                            ref="AdminNavInfoModal"></AdminNavInfoModal>
     </div>
 </template>
@@ -13,10 +13,17 @@
     import AdminNavInfoModal from './admin-nav-info-modal'
     import AdminSearch from '../../../components/web-search'
     import {deepCopy} from "../../../js/common";
+    import {GetMenuInfo, DelMenuInfoId} from '../../../api/web'
+    import moment from 'moment';
 
     export default {
         name: "admin-nav-table",
-        props: {},
+        props: {
+            menuId: {
+                type: String,
+                default: ''
+            }
+        },
         components: {
             AdminNavInfoModal,
             AdminSearch
@@ -45,12 +52,12 @@
                         width: 80
                     },
                     {
-                        title: '名字',
-                        key: 'name'
+                        title: '标题',
+                        key: 'infoName'
                     },
                     {
                         title: '时间',
-                        key: 'time'
+                        key: 'gmtUpdated'
                     },
                     {
                         title: '操作',
@@ -58,14 +65,8 @@
                         width: 200
                     }
                 ],
-                dataList: [
-                    {
-                        name: '文章1',
-                    },
-                    {
-                        name: '文章2',
-                    }
-                ]
+                dataList: [],
+                info: {}
             }
         },
         methods: {
@@ -74,18 +75,16 @@
             onAddItem() {
                 this.showModal = true;
             },
-            getDataList(id) {
-                // this.dataTable = data.map(item => {
-                //     return {
-                //         id: item.id,
-                //         name: item.name,
-                //         type: "" + item.type,
-                //         typeName: typeCode[item.type].typeName,
-                //         order: item.order,
-                //         isShow: item.isShow,
-                //         isView: !item.isShow
-                //     }
-                // })
+            getDataList() {
+                GetMenuInfo({menuId: this.menuId}).then(res => {
+                    if (res.status) {
+                        this.dataList = res.data.map(item => {
+                            item.gmtUpdated = moment(item.gmtUpdated).format("YYYY-MM-DD");
+                            return item;
+                        })
+                    } else {
+                    }
+                })
             },
             uploadInfoList() {
                 window.console.log('请求详情列表')
@@ -96,10 +95,20 @@
             onEdit(params) {
                 this.showModal = true;
                 this.id = params.id;
-                this.$refs.AdminNavInfoModal.infoFrom = deepCopy(params)
+                this.info = deepCopy(params)
+                // this.$refs.AdminNavInfoModal.infoFrom = deepCopy(params)
             },
             onDel(params) {
+                DelMenuInfoId({infoId:params.infoId}).then(res => {
+                    if (res.status) {
+
+                    } else {
+                    }
+                })
             },
+        },
+        mounted() {
+            this.getDataList()
         }
     }
 </script>

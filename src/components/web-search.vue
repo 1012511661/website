@@ -1,7 +1,9 @@
 <template>
     <div class="search-wrap">
-        <Input class="search-input m-right" v-model="msg" :placeholder="placeholder" :maxlength="128"/>
-        <Button class="m-right" type="primary" @click="onSearch">查询</Button>
+        <template v-if="isSearch">
+            <Input class="search-input m-right" v-model="msg" :placeholder="placeholder" :maxlength="128"/>
+            <Button class="m-right" type="primary" @click="onSearch">查询</Button>
+        </template>
         <Button class="btn" type="primary" style='right:70px' @click="onBack" v-if="isShowBack">返回</Button>
         <Button class="btn" type="primary" style='right:0' @click="onAdd" v-if="isAdd">添加</Button>
     </div>
@@ -21,11 +23,15 @@
                 type: String,
                 default: ''
             },
-            isShowBack:{
+            isSearch: {
+                type: Boolean,
+                default: true
+            },
+            isShowBack: {
                 type: Boolean,
                 default: false
             },
-            isAdd:{
+            isAdd: {
                 type: Boolean,
                 default: true
             }
@@ -48,7 +54,7 @@
             onAdd() {
                 this.$emit('on-add-item')
             },
-            onBack(){
+            onBack() {
                 this.$emit('on-back-item')
             }
         }
@@ -62,8 +68,7 @@
         display: flex;
         align-items: center;
         position: relative;
-        margin-bottom: 28px;
-
+        margin: 20px 0 35px 0;
         .search-input {
             width: 200px;
         }

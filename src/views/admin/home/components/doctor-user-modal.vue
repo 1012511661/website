@@ -2,11 +2,19 @@
     <div class=''>
         <AdminModal v-model="showModal" :title="title" @on-ok="onSave">
             <div class="doctor-user-content">
+                {{regionId}}--{{infoFrom}}
                 <Form ref="infoFrom" :model="infoFrom" :rules="infoRules" :label-width="80">
                     <FormItem label="姓名" prop="cdName">
-                        <Input v-model="infoFrom.cdName" placeholder="请输入姓名" :maxlength="10" class="input"/>
+                        <Input v-model="infoFrom.cdName" placeholder="请输入" :maxlength="10" class="input"/>
                     </FormItem>
-                    <FormItem label="图片地址" prop="src">
+                    <FormItem label="电话" prop="cdMobile">
+                        <Input v-model="infoFrom.cdMobile" placeholder="请输入" :maxlength="10" class="input" type="tel"/>
+                    </FormItem>
+                    <FormItem label="邮箱" prop="cdEmail">
+                        <Input v-model="infoFrom.cdEmail" placeholder="请输入" :maxlength="10" class="input" type="email"/>
+                    </FormItem>
+                    <FormItem label="图片地址">
+                        <!--                        cdPicture-->
                         <AdminUpload footTitle="图片尺寸 150*185"></AdminUpload>
                     </FormItem>
                 </Form>
@@ -18,6 +26,8 @@
 <script>
     import AdminModal from '../../../../components/web-modal'
     import AdminUpload from '../../components/admin-upload'
+    import {PostCad, PutCad} from '../../../../api/web'
+    import qs from 'qs'
 
     export default {
         name: "doctor-user-modal",
@@ -30,6 +40,10 @@
                 type: String,
                 default: "新建"
             },
+            regionId: {
+                type: Number,
+                default: 0
+            }
         },
         components: {AdminModal, AdminUpload},
         data() {
@@ -37,13 +51,17 @@
                 showModal: this.value,
                 infoFrom: {
                     cdName: '',
-                    src: '',
+                    cdMobile: '',
+                    cdEmail: ''
                 },
                 infoRules: {
                     cdName: [
                         {required: true, message: ' ', trigger: 'blur'}
                     ],
-                    src: [
+                    cdMobile: [
+                        {required: true, message: ' ', trigger: 'blur'}
+                    ],
+                    cdEmail: [
                         {required: true, message: ' ', trigger: 'blur'}
                     ],
                 },
@@ -55,11 +73,10 @@
                 if (!newV) {
                     this.infoFrom = {
                         cdName: '',
-                        doctor: '',
-                        src: '',
+                        cdMobile: '',
+                        cdEmail: ''
                     }
-                } else {
-                    this.uploadList = this.$refs.upload.fileList;
+                    this.$refs.infoFrom.resetFields();
                 }
             },
             value(newV) {
@@ -70,10 +87,28 @@
             onSave() {
                 this.$refs.infoFrom.validate((valid) => {
                     if (valid) {
-                        this.showModal = false;
-                        this.$emit('upload-doctor-user')
+                        this.infoFrom.regionId = this.regionId;
+                        if (this.infoFrom.cdId) {
+                            PutCad(qs.stringify(this.infoFrom)).then(res => {
+                                if (res.status) {
+                                    this.showModal = false;
+                                    this.$emit('upload-doctor-user')
+                                } else {
+                                    this.$Notice.warning({title: '错误', desc: res.msg})
+                                }
+                            })
+                        } else {
+                            PostCad(qs.stringify(this.infoFrom)).then(res => {
+                                if (res.status) {
+                                    this.showModal = false;
+                                    this.$emit('upload-doctor-user')
+                                } else {
+                                    this.$Notice.warning({title: '错误', desc: res.msg})
+                                }
+                            })
+                        }
                     } else {
-                        this.$Message.error('Fail!');
+                        this.$Notice.warning({title: '错误', desc: '请填写正确信息'})
                     }
                 })
             },

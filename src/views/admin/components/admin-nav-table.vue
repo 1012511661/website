@@ -33,16 +33,6 @@
                     }
                 },
                 {
-                    title: '隐藏', key: 'menuShow', hide: true, onClick: (params) => {
-                        this.onShow(params.row, 0)
-                    }
-                },
-                {
-                    title: '显示', key: 'menuView', hide: true, onClick: (params) => {
-                        this.onShow(params.row, 1)
-                    }
-                },
-                {
                     title: '查看', onClick: (params) => {
                         this.onView(params.row)
                     }
@@ -56,7 +46,7 @@
                     {
                         title: '序号',
                         type: 'index',
-                        width:80
+                        width: 80
                     },
                     {
                         title: '栏目名',
@@ -69,7 +59,11 @@
                     {
                         title: '类型',
                         key: 'typeName',
-
+                    },
+                    {
+                        title: '是否显示',
+                        key: 'menuShowType',
+                        width: 100
                     },
                     {
                         title: '操作',
@@ -82,40 +76,31 @@
         },
         methods: {
             getDataList(id) {
+                this.menuId = id;
                 GetMenuId(id).then(res => {
                     if (res.status) {
                         this.dataTable = (res.data.menuPos || []).map(item => {
-                            item.menuView = !item.menuShow
+                            let status = typeCode.find(find => find.typeId === item.menuType);
+                            item.typeName = (status || typeCode[0]).typeName;
+                            item.menuShowType = item.menuShow ? '是' : '否';
+                            item.menuShow = item.menuShow ? 1 : 0;
+                            item.menuType = item.menuType || 0;
                             return item;
                         })
                     }
                 })
-                // this.dataTable = data.map(item => {
-                //     return {
-                //         menuId: item.menuId,
-                //         menuName: item.menuName,
-                //         type: "" + item.type,
-                //         typeName: typeCode[item.type].typeName,
-                //         order: item.order,
-                //         isShow: item.isShow,
-                //         isView: !item.isShow
-                //     }
-                // })
             },
             uploadNavTable() {
-                window.console.log('请求栏目管理接口 一级')
+                this.getDataList(this.menuId)
             },
             onEdit(params) {
                 this.showModal = true;
                 this.id = params.id;
                 this.$refs.AdminNavModal.navFrom = deepCopy(params)
             },
-
             onView(params) {
                 this.$emit('on-view-list', params)
-            },
-            onShow(params, num) {
-            },
+            }
         }
     }
 </script>
