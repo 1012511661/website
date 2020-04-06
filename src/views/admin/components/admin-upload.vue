@@ -1,10 +1,18 @@
 <template>
     <div class='banner-modal'>
-        <template v-for="(item,index) in defaultList">
-            <div class="home-banner-upload-list" :key="index" :style="{width:`${widthImg}px`,height:`${heightImg}px`}">
-                <img :src="item" :onerror="errImg">
-            </div>
-        </template>
+        <ul class="file-list" v-for="(list,index) in fileArr" :key="index">
+            <li>
+                <template v-if="!list.name">
+                    <p>当前显示的：</p>
+                    <img :src="list" :style="{width:`${widthImg}px`,height:`${heightImg}px`}">
+                </template>
+                <template v-else>
+                    <p>替换上传的：</p>
+                    <span style="font-size:15px;color:#000">文件名: {{ list.name }}</span>
+                </template>
+                <Icon type="ios-close" size="25" color="red" @click="delFileList(index)"></Icon>
+            </li>
+        </ul>
         <Upload
                 ref="upload"
                 :show-upload-list="false"
@@ -14,7 +22,7 @@
                 :before-upload="handleBeforeUpload"
                 :multiple="multiple"
                 type="drag"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                :action="action"
                 style="display: inline-block;width:58px;">
             <div style="width: 58px;height:58px;line-height: 58px;float: right">
                 <Icon type="ios-camera" size="20"></Icon>
@@ -25,6 +33,7 @@
 </template>
 
 <script>
+    import axios from "axios";
 
     export default {
         name: "home-banner",
@@ -54,21 +63,47 @@
         },
         data() {
             return {
-                formInfo: {},
-                errImg: 'this.src="' + require('../../../assets/banner1.jpg') + '"'
+                fileArr: [...this.defaultList],
+                file: null,
+                action: ''
             }
         },
-        watch: {},
+        watch: {
+            defaultList: {
+                handler(newV, oldV) {
+                    window.console.log(newV, oldV, 'newV,oldV')
+                },
+                deep: true
+            }
+        },
         methods: {
             imgError() {
                 var img = event.srcElement;
                 img.src = "http://placehold.it/600x300/0f0/ccc.png";
                 img.onerror = null;
             },
+            delFileList(index) {
+                this.fileArr.splice(index, 1);
+            },
+            upload(info) {
+                var formData = new FormData();
+                formData.append('menuId', info.menuId);
+                for (var i = 0; i < this.fileArr.length; i++) {
+                    formData.append(`files`, this.fileArr[i]); // 文件对象
+                }
+                let config = {
+                    headers: {'Content-Type': 'multipart/form-data'}
+                };  //添加请求头
+                axios.post(`http://39.101.203.68:8082/ws/menu/import`, formData, config)
+                    .then(res => {
+                        console.log('res=>', res);
+
+                    })
+
+            },
             // 成功
             handleSuccess(res, file) {
-                file.url = 'https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large';
-                file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+                window.console.log(res, file, '成功')
             },
             // 失败
             handleFormatError(file) {
@@ -78,14 +113,10 @@
                 });
             },
             // 上传文件之前
-            handleBeforeUpload() {
-                const check = this.uploadList.length < 5;
-                if (!check) {
-                    this.$Notice.warning({
-                        title: 'Up to five pictures can be uploaded.'
-                    });
-                }
-                return check;
+            handleBeforeUpload(file) {
+                this.fileArr.push(file);
+                this.file = file;
+                return false;
             }
         }
     }

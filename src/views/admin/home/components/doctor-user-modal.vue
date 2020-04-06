@@ -1,6 +1,6 @@
 <template>
     <div class=''>
-        <AdminModal v-model="showModal" :title="title" @on-ok="onSave">
+        <AdminModal v-model="showModal" :title="title" @on-ok="onSave" width="850">
             <div class="doctor-user-content">
                 {{regionId}}--{{infoFrom}}
                 <Form ref="infoFrom" :model="infoFrom" :rules="infoRules" :label-width="80">
@@ -14,8 +14,10 @@
                         <Input v-model="infoFrom.cdEmail" placeholder="请输入" :maxlength="10" class="input" type="email"/>
                     </FormItem>
                     <FormItem label="图片地址">
-                        <!--                        cdPicture-->
                         <AdminUpload footTitle="图片尺寸 150*185"></AdminUpload>
+                    </FormItem>
+                    <FormItem label="内容">
+                        <div id="websiteEditorElem" style="height:300px;background: #ffffff;"></div>
                     </FormItem>
                 </Form>
             </div>
@@ -28,6 +30,7 @@
     import AdminUpload from '../../components/admin-upload'
     import {PostCad, PutCad} from '../../../../api/web'
     import qs from 'qs'
+    import E from "wangeditor";
 
     export default {
         name: "doctor-user-modal",
@@ -65,12 +68,14 @@
                         {required: true, message: ' ', trigger: 'blur'}
                     ],
                 },
+                editor: ''
             }
         },
         watch: {
             showModal(newV) {
                 this.$emit("input", newV);
                 if (!newV) {
+                    this.editor = null;
                     this.infoFrom = {
                         cdName: '',
                         cdMobile: '',
@@ -84,10 +89,24 @@
             },
         },
         methods: {
+            Ewangeditor() {
+                this.editor = new E('#websiteEditorElem');
+                // 上传图片到服务器，base64形式
+                this.editor.customConfig.uploadImgShowBase64 = true;
+                // 隐藏网络图片
+                this.editor.customConfig.showLinkImg = true;
+                // 创建一个富文本编辑器
+                this.editor.create();
+                // 富文本内容
+                this.editor.txt.html()
+            },
+
             onSave() {
                 this.$refs.infoFrom.validate((valid) => {
                     if (valid) {
                         this.infoFrom.regionId = this.regionId;
+                        this.infoFrom.infoInfo = this.editor.txt.html()
+                        window.console.log(this.infoFrom,'this.infoFrom')
                         if (this.infoFrom.cdId) {
                             PutCad(qs.stringify(this.infoFrom)).then(res => {
                                 if (res.status) {
@@ -112,6 +131,9 @@
                     }
                 })
             },
+        },
+        mounted() {
+            this.Ewangeditor();
         }
     }
 </script>

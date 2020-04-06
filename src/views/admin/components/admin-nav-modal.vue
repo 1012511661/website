@@ -83,11 +83,11 @@
             onSave() {
                 this.$refs.navFrom.validate((valid) => {
                     if (valid) {
-                        PutMenuUpdate().then(res=>{
-                            if(res.status){
+                        PutMenuUpdate(this.navFrom).then(res => {
+                            if (res.status) {
                                 this.showModal = false;
                                 this.$emit('upload-nav-table')
-                            }else{
+                            } else {
 
                             }
                         })

@@ -27,7 +27,7 @@
             </template>
             <template v-else>
                 <AdminUpload :multiple="false" :defaultList="[manageFrom.menuPicture]"
-                             footTitle="图片尺寸 1920*200"></AdminUpload>
+                             footTitle="图片尺寸 1920*200" ref="AdminUpload"></AdminUpload>
             </template>
         </div>
     </AdminModal>
@@ -36,7 +36,7 @@
 <script>
     import AdminModal from '../../../../components/web-modal'
     import AdminUpload from '../../components/admin-upload'
-    import {PutMenuUpdate} from '../../../../api/web'
+    import {PutMenuUpdate, PostMenuImport} from '../../../../api/web'
     import AdminTabs from '../../components/admin-tabs'
 
     export default {
@@ -88,12 +88,15 @@
             showModal(newV) {
                 this.$emit("input", newV);
                 if (!newV) {
-                    this.$refs.manageFrom.resetFields()
-                    this.listFrom = {
-                        menuName: '',
-                        menuNumber: this.len + 1,
-                        menuShow: 1
+                    if (!this.activeId) {
+                        this.$refs.manageFrom.resetFields()
+                        this.manageFrom = {
+                            menuName: '',
+                            menuNumber: this.len + 1,
+                            menuShow: 1
+                        }
                     }
+                    this.activeId = 0
                 }
             },
             value(newV) {
@@ -102,24 +105,27 @@
         },
         methods: {
             onClick(index) {
-                window.console.log(index,'123')
                 this.activeId = index;
             },
             onSave() {
-                this.$refs.manageFrom.validate((valid) => {
-                    if (valid) {
-                        PutMenuUpdate(this.manageFrom).then(res => {
-                            if (res.status) {
-                                this.showModal = false;
-                                this.$emit('upload-manage')
-                            } else {
-                                this.$Notice.warning({title: '错误', desc: res.msg})
-                            }
-                        })
-                    } else {
-                        this.$Notice.warning({title: '错误', desc: '请填写正确信息'})
-                    }
-                })
+                if (!this.activeId) {
+                    this.$refs.manageFrom.validate((valid) => {
+                        if (valid) {
+                            PutMenuUpdate(this.manageFrom).then(res => {
+                                if (res.status) {
+                                    this.showModal = false;
+                                    this.$emit('upload-manage')
+                                } else {
+                                    this.$Notice.warning({title: '错误', desc: res.msg})
+                                }
+                            })
+                        } else {
+                            this.$Notice.warning({title: '错误', desc: '请填写正确信息'})
+                        }
+                    })
+                } else {
+                    this.$refs.AdminUpload.upload(this.manageFrom);
+                }
             }
         }
     }
