@@ -64,6 +64,7 @@
                     cdMobile: [
                         {required: true, message: ' ', trigger: 'blur'}
                     ],
+
                     cdEmail: [
                         {required: true, message: ' ', trigger: 'blur'}
                     ],
