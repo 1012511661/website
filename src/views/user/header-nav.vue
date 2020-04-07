@@ -13,18 +13,22 @@
                             <Dropdown :key="item.menuId" trigger="hover" :visible="item.visible"
                                       @on-visible-change="(value) => onVisibleChange(index, value)">
                                 <div class="menu-group-title">
-                                    <router-link class="link header-link" @mousedown.native="onMenuClick"
-                                                 activeClass="header-link-active"
-                                                 :to="{name:item.menuId}">{{item.menuName}}
-                                    </router-link>
+                                    <template v-if="item.menuShow">
+                                        <router-link class="link header-link" @mousedown.native="onMenuClick"
+                                                     activeClass="header-link-active"
+                                                     :to="{name:item.menuId}">{{item.menuName}}
+                                        </router-link>
+                                        </template>
                                     <div class="mask"></div>
                                 </div>
                                 <DropdownMenu slot="list" @click.native="(value) => onItemClick(index, value)">
                                     <template v-for="childItem in item.menuPos">
-                                        <router-link :key="childItem.menuId" tag="li" activeClass="item-link-active"
-                                                     class="link item-link"
-                                                     :to="{name:childItem.menuId}">{{childItem.menuName}}
-                                        </router-link>
+                                        <template v-if="childItem.menuShow">
+                                            <router-link :key="childItem.menuId" tag="li" activeClass="item-link-active"
+                                                         class="link item-link"
+                                                         :to="{name:childItem.menuId}">{{childItem.menuName}}
+                                            </router-link>
+                                        </template>
                                     </template>
                                 </DropdownMenu>
                             </Dropdown>

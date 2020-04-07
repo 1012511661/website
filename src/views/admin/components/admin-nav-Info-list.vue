@@ -60,6 +60,14 @@
                         key: 'gmtUpdated'
                     },
                     {
+                        title: '父级名',
+                        key: 'gmtUpdated'
+                    },
+                    {
+                        title: '父级类型',
+                        key: 'gmtUpdated'
+                    },
+                    {
                         title: '操作',
                         render: operationRender,
                         width: 200
@@ -87,7 +95,7 @@
                 })
             },
             uploadInfoList() {
-                window.console.log('请求详情列表')
+                this.getDataList()
             },
             onBackItem() {
                 this.$emit('on-back-nav')
@@ -96,7 +104,6 @@
                 this.showModal = true;
                 this.id = params.id;
                 this.info = deepCopy(params)
-                // this.$refs.AdminNavInfoModal.infoFrom = deepCopy(params)
             },
             onDel(params) {
                 DelMenuInfoId({infoId:params.infoId}).then(res => {

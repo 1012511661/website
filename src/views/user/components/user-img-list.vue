@@ -9,7 +9,7 @@
                                 <img :src="item.src">
                             </div>
                             <p class="title">
-                                {{item.title}}
+                                {{item.infoName}}
                             </p>
                         </div>
                     </Col>

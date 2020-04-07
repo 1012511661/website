@@ -38,19 +38,22 @@
                 this.getMenu()
             },
             getMenu() {
-                let _menuList = JSON.parse(sessionStorage.getItem('menu'))
+                let _menuList = JSON.parse(sessionStorage.getItem('menu'));
                 for (let i of _menuList) {
                     if (i.menuId === 'CAPSULE') {
                         this.bannerSrc = i.pictures[0];
                         this.title = i.menuName;
                         for (let k = 0; k < i.menuPos.length; k++) {
-                            let _obj = {
-                                to: {
-                                    path: i.menuPos[k].menuId.toLowerCase()
-                                },
-                                name: i.menuPos[k].menuName
-                            };
-                            this.navList.push(_obj)
+                            if(i.menuPos[k].menuShow){
+                                let _obj = {
+                                    to: {
+                                        path: i.menuPos[k].menuId.toLowerCase()
+                                    },
+                                    menuType:i.menuPos[k].menuType,
+                                    name: i.menuPos[k].menuName
+                                };
+                                this.navList.push(_obj)
+                            }
                         }
                     }
                 }

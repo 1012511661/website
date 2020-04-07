@@ -12,8 +12,7 @@
     import AdminSearch from '../../../../components/web-search'
     import DoctorListModal from './doctor-list-modal'
     import {operation} from "../../../../js/render";
-    import {GetRegion} from "../../../../api/web"
-    import {deepCopy} from "../../../../js/common"
+    import {GetRegion,DelVote} from "../../../../api/web"
 
     export default {
         name: "doctor-list-table",
@@ -29,6 +28,11 @@
                 {
                     title: '人员', onClick: (params) => {
                         this.onUser(params.row)
+                    }
+                },
+                {
+                    title: '删除', onClick: (params) => {
+                        this.onDel(params.row)
                     }
                 }
             ]
@@ -62,7 +66,7 @@
             init() {
                 GetRegion().then(res => {
                     if (res.status) {
-                        this.dataList = res.data || []
+                        this.dataList = res.data.dataList || []
                     }
                 })
             },
@@ -81,6 +85,19 @@
             },
             onUser(params) {
                 this.$emit('show-user-table', params)
+            },
+            onDel(params){
+                this.$Modal.confirm({
+                    title: '確定刪除？',
+                    onOk: () => {
+                        DelVote (params.regionId).then(res => {
+                            if (res.status) {
+                                this.$Notice.success({title: '成功', desc: '删除成功'});
+                                this.init();
+                            }
+                        })
+                    }
+                })
             }
         },
         mounted() {

@@ -20,7 +20,7 @@
     import AdminModal from '../../../components/web-modal'
     import AdminUpload from '../components/admin-upload'
     import E from "wangeditor";
-    import {PostMenuInfo, PostMenuImport} from '../../../api/web'
+    import {PostMenuInfo, PutMenuInfo} from '../../../api/web'
     import qs from 'qs'
 
     export default {
@@ -103,7 +103,7 @@
                         this.infoFrom.infoInfo = this.phoneEditor.txt.html();
                         this.infoFrom.menuId = this.menuId;
                         if (this.infoFrom.infoId) {//修改
-                            PostMenuInfo(qs.stringify(this.infoFrom)).then(res => {
+                            PutMenuInfo(qs.stringify(this.infoFrom)).then(res => {
                                 if (res.status) {
                                     this.showModal = false;
                                     this.$emit('upload-nav-table')
@@ -112,7 +112,7 @@
                                 }
                             })
                         } else {//新增
-                            PostMenuImport(qs.stringify(this.infoFrom)).then(res => {
+                            PostMenuInfo(qs.stringify(this.infoFrom)).then(res => {
                                 if (res.status) {
                                     this.showModal = false;
                                     this.$emit('upload-nav-table')

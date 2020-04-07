@@ -1,44 +1,21 @@
 <template>
     <div class='capsule-project'>
-        <UserConType :type="2" :dataList="dataList"></UserConType>
+        <UserConType :type="type" :dataList="dataList" :dataInfo="dataInfo"></UserConType>
     </div>
 </template>
 
 <script>
     import UserConType from "../components/user-content-type"
-    import {GetMenuId} from "../../../api/web";
+    import {GetMenuInfo} from "../../../api/web";
 
     export default {
         name: "project",
-        props: {
-            type: {
-                type: Number,
-                default: 0
-            }
-        },
         components: {UserConType},
         data() {
             return {
-                dataList: [
-                    {
-                        id: 1,
-                        title: '一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十',
-                        content:'一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十',
-                        time: '2019-20-20'
-                    },
-                    {
-                        id: 2,
-                        title: '一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十',
-                        content:'一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十',
-                        time: '2019-20-20'
-                    },
-                    {
-                        id: 3,
-                        title: 'This is title 3',
-                        content:'一二',
-                        time: '2019-20-20'
-                    }
-                ]
+                dataList: [],
+                dataInfo: {},
+                type: 2
             }
         },
         methods: {
@@ -46,11 +23,14 @@
                 this.getDataList()
             },
             getDataList() {
-                GetMenuId('PROJECT').then(res => {
-                    if (res.status) {
-                        window.console.log(res, '123465')
-                    } else {
-                        this.$Notice.warning({title: '错误', desc: res.msg})
+                GetMenuInfo({menuId: 'PROJECT'}).then(res => {
+                    if (res.status&&res.data.length) {
+                        this.type = res.data[0].menuPo.menuType || 0;
+                        if (this.type != 3) {
+                            this.dataList = res.data;
+                        } else {
+                            this.dataInfo = res.data[0];
+                        }
                     }
                 })
             }

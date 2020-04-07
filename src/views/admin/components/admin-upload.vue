@@ -63,7 +63,8 @@
         },
         data() {
             return {
-                fileArr: [...this.defaultList],
+                // fileArr: [...this.defaultList],
+                fileArr: [],
                 file: null,
                 action: ''
             }
@@ -94,7 +95,11 @@
                 let config = {
                     headers: {'Content-Type': 'multipart/form-data'}
                 };  //添加请求头
-                axios.post(`http://39.101.203.68:8082/ws/menu/import`, formData, config)
+
+                //http://39.101.203.68:8082/ws/menu/import
+                axios.post(`http://10.0.5.127:8082/ws/menu/import`, formData, {
+                    headers: {'Content-Type': 'multipart/form-data'}
+                })
                     .then(res => {
                         console.log('res=>', res);
 

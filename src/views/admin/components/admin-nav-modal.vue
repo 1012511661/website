@@ -15,6 +15,16 @@
                 <FormItem label="排序" prop="menuNumber">
                     <InputNumber v-model="navFrom.menuNumber" :max="999" :min="1"/>
                 </FormItem>
+                <FormItem label="是否显示" prop="menuShow">
+                    <RadioGroup v-model="navFrom.menuShow">
+                        <Radio :label=1>
+                            <span>是</span>
+                        </Radio>
+                        <Radio :label=0>
+                            <span>否</span>
+                        </Radio>
+                    </RadioGroup>
+                </FormItem>
             </Form>
         </div>
     </AdminModal>

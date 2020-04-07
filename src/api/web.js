@@ -30,6 +30,8 @@ export const PutVote = params => request.put("/cad/vote", params);
 export const PutVoteUpdate = params => request.put("/region/update", params);
 // 新建地区
 export const PostVote = params => request.post("/region", params);
+// 删除地区
+export const DelVote = regionId => request.delete(`/region/${regionId}`);
 // 添加候选人
 export const PostCad = params => request.post("/cad", params);
 // 修改候选人信息

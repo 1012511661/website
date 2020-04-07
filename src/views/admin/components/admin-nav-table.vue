@@ -57,13 +57,12 @@
                         key: 'menuNumber',
                     },
                     {
-                        title: '类型',
-                        key: 'typeName',
-                    },
-                    {
                         title: '是否显示',
                         key: 'menuShowType',
-                        width: 100
+                    },
+                    {
+                        title: '类型',
+                        key: 'typeName',
                     },
                     {
                         title: '操作',

@@ -283,6 +283,14 @@ const routes = [
                 },
                 name: "SEARCH",
                 component: () => import('../views/user/search.vue')
+            },
+            {
+                path: '/doctor-info',
+                meta: {
+                    title: "医生简介",
+                },
+                name: "DOCTORINFO",
+                component: () => import('../views/user/doctor-info.vue')
             }
         ]
     },

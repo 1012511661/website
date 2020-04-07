@@ -1,62 +1,21 @@
 <template>
     <div class='declared-introduction'>
-        <UserConType :type="0" :dataList="dataList"></UserConType>
+        <UserConType :type="type" :dataList="dataList" :dataInfo="dataInfo"></UserConType>
     </div>
 </template>
 
 <script>
     import UserConType from "../components/user-content-type"
-    import {GetMenuId} from "../../../api/web";
+    import {GetMenuId, GetMenuInfo} from "../../../api/web";
 
     export default {
         name: "declared",
-        props: {
-            type: {
-                type: Number,
-                default: 0
-            }
-        },
         components: {UserConType},
         data() {
             return {
-                dataList: [
-                    {
-                        id: 1,
-                        title: 'AAAA',
-                        time: '2020-03-24 19:22:00',
-                        src: 'https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large'
-                    },
-                    {
-                        id: 2,
-                        title: 'AAAA',
-                        time: '2020-03-24 19:22:00',
-                        src: 'https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large'
-                    },
-                    {
-                        id: 3,
-                        title: 'AAAA',
-                        time: '2020-03-24 19:22:00',
-                        src: 'https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large'
-                    },
-                    {
-                        id: 4,
-                        title: 'AAAA',
-                        time: '2020-03-24 19:22:00',
-                        src: 'https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large'
-                    },
-                    {
-                        id: 5,
-                        title: 'AAAA',
-                        time: '2020-03-24 19:22:00',
-                        src: 'https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large'
-                    },
-                    {
-                        id: 6,
-                        title: 'AAAA',
-                        time: '2020-03-24 19:22:00',
-                        src: 'https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large'
-                    },
-                ]
+                dataList: [],
+                dataInfo: {},
+                type: 2
             }
         },
         methods: {
@@ -64,11 +23,14 @@
                 this.getDataList()
             },
             getDataList() {
-                GetMenuId('DECLARED').then(res => {
-                    if (res.status) {
-                        window.console.log(res, '123465')
-                    } else {
-                        this.$Notice.warning({title: '错误', desc: res.msg})
+                GetMenuInfo({menuId: 'DECLARED'}).then(res => {
+                    if (res.status&&res.data.length) {
+                        this.type = res.data[0].menuPo.menuType || 0;
+                        if (this.type != 3) {
+                            this.dataList = res.data;
+                        } else {
+                            this.dataInfo = res.data[0];
+                        }
                     }
                 })
             }

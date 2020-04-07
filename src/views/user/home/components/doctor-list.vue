@@ -59,8 +59,8 @@
             getDoctor() {
                 GetRegion().then(res => {
                     if (res.status) {
-                        this.tabList = res.data|| [];
-                        this.getDoctorList(res.data[0].regionId)
+                        this.tabList = res.data.dataList|| [];
+                        this.getDoctorList(res.data.dataList[0].regionId)
                     } else {
                         this.$Notice.warning({title: '错误', desc: res.msg})
                     }

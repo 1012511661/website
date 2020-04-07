@@ -1,6 +1,8 @@
 <template>
     <div class="user-info-warp">
-        <p class="back-title"><i @click="goSteps"><= 返回</i></p>
+        <template v-if="isBack">
+            <p class="back-title"><i @click="goSteps"><= 返回</i></p>
+        </template>
         <div class='data-info'>
             <p class="title">{{dataInfo.title}}</p>
             <p class="time">时间：{{dataInfo.time}}</p>
@@ -14,11 +16,21 @@
     export default {
         name: "user-info-warp",
         props: {
+            dataList: {
+                type: Array,
+                default: () => {
+                    return []
+                }
+            },
             dataInfo: {
                 type: Object,
                 default: () => {
                     return {}
                 }
+            },
+            isBack: {
+                type: Boolean,
+                default: true
             }
         },
         methods: {

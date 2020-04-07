@@ -1,28 +1,20 @@
 <template>
     <div class='contact-cooperation'>
-        <UserConType :type="3" :dataInfo="dataInfo"></UserConType>
+        <UserConType :type="type" :dataList="dataList" :dataInfo="dataInfo"></UserConType>
     </div>
 </template>
 
 <script>
     import UserConType from "../components/user-content-type"
-    import {GetMenuId} from "../../../api/web";
+    import {GetMenuId, GetMenuInfo} from "../../../api/web";
     export default {
         name: "cooperation",
-        props: {
-            type: {
-                type: Number,
-                default: 0
-            }
-        },
         components: {UserConType},
         data() {
             return {
-                dataInfo: {
-                    id: 1,
-                    name: '题目',
-                    content:'内容内容内容内容内容内容'
-                }
+                dataList: [],
+                dataInfo: {},
+                type: 2
             }
         },
         methods: {
@@ -30,11 +22,14 @@
                 this.getDataList()
             },
             getDataList() {
-                GetMenuId('COOPERATION').then(res => {
-                    if (res.status) {
-                        window.console.log(res, '123465')
-                    } else {
-                        this.$Notice.warning({title: '错误', desc: res.msg})
+                GetMenuInfo({menuId: 'COOPERATION'}).then(res => {
+                    if (res.status&&res.data.length) {
+                        this.type = res.data[0].menuPo.menuType || 0;
+                        if (this.type != 3) {
+                            this.dataList = res.data;
+                        } else {
+                            this.dataInfo = res.data[0];
+                        }
                     }
                 })
             }

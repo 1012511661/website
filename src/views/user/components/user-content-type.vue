@@ -1,10 +1,10 @@
 <template>
     <div class=''>
         <template v-if="type == 0">
-            <UserImgList :dataList="dataList"></UserImgList>
+            <UserVideoList :dataList="dataList"></UserVideoList>
         </template>
         <template v-else-if="type == 1">
-            <UserVideoList :dataList="dataList"></UserVideoList>
+            <UserImgList :dataList="dataList"></UserImgList>
         </template>
         <template v-else-if="type == 2">
             <UserTextList :dataList="dataList"></UserTextList>
@@ -39,7 +39,7 @@
                 default: () => {
                     return {}
                 }
-            }
+            },
         },
         components: {UserImgList, UserVideoList, UserTextList, UserInfoWarp},
         data() {

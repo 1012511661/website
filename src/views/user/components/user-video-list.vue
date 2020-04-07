@@ -13,7 +13,7 @@
                                 </video>
                             </div>
                             <p class="title">
-                                {{item.name}}
+                                {{item.infoName}}
                             </p>
                         </div>
                     </Col>
