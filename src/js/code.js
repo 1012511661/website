@@ -9,7 +9,7 @@ export const typeCode = [
     },
     {
         typeId: 2,
-        typeName: "文字列表"
+        typeName: "文章列表"
     },
     {
         typeId: 3,

@@ -4,15 +4,15 @@
             <Row>
                 <template v-for="item in dataList">
                     <Col :xs="12" :sm="8" :md="8" :lg="8">
-                        <div class="list-warp" style="" :key="item.id" @click="goInfo(item)">
-                            <div class="video-cell">
+                        <div class="list-warp" style="" :key="item.id">
+                            <div class="list-cell">
                                 <video :src="item.src"
                                        controls="controls"
-                                       width="90%"
-                                       height="100%">
+                                       class="src-warp"
+                                >
                                 </video>
                             </div>
-                            <p class="title">
+                            <p class="title" @click="goInfo(item)">
                                 {{item.infoName}}
                             </p>
                         </div>
@@ -65,13 +65,10 @@
     .user-video-list {
         .list-warp {
             .list-warp();
-
-            .video-cell {
-                padding-top: 10px;
-
-                .title {
-                    padding: 10px 0;
-                }
+            video {
+                width: 90%;
+                height: 185px;
+                object-fit: initial;
             }
         }
     }

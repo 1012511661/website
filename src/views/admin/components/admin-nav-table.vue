@@ -46,7 +46,7 @@
                     {
                         title: '序号',
                         type: 'index',
-                        width: 80
+                        width: 100
                     },
                     {
                         title: '栏目名',
@@ -86,6 +86,8 @@
                             item.menuType = item.menuType || 0;
                             return item;
                         })
+                    }else{
+                        this.$Notice.warning({title: '错误', desc: res.msg})
                     }
                 })
             },

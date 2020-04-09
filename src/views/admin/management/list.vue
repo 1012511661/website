@@ -31,7 +31,7 @@
                     {
                         title: '序号',
                         type: 'index',
-                        width: 80
+                        width: 100
                     },
                     {
                         title: '栏目名',

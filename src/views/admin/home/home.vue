@@ -82,8 +82,9 @@
             getMenuList() {
                 GetMenuList().then(res => {
                     if (res.status) {
-                        this.bannerList = res.data[0].pictures
-                        window.console.log(res, '111111')
+                        this.bannerList = res.data[0].pictures;
+                    }else {
+                        this.$Notice.warning({title: '错误', desc: res.msg})
                     }
                 })
             },

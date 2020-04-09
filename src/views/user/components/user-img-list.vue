@@ -5,8 +5,8 @@
                 <template v-for="item in dataList">
                     <Col :xs="12" :sm="8" :md="8" :lg="8">
                         <div class="list-warp" style="" :key="item.id" @click="goInfo(item)">
-                            <div class="img-cell">
-                                <img :src="item.infoPicture">
+                            <div class="list-cell">
+                                <img :src="item.infoPicture" class="src-warp">
                             </div>
                             <p class="title">
                                 {{item.infoName}}
@@ -62,19 +62,6 @@
         .list-warp {
             .list-warp();
 
-            .img-cell {
-                padding-top: 10px;
-
-                img {
-                    width: 90%;
-                    height: 185px;
-                    object-fit: initial;
-                }
-
-                .title {
-                    padding: 10px 0;
-                }
-            }
         }
     }
 </style>

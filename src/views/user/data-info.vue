@@ -18,7 +18,7 @@
     import UserInfoWarp from "./components/user-info-warp"
 
     export default {
-        name: "doctor-info",
+        name: "data-info",
         props: {},
         components: {UserTwoBanner, UserTwoNav, UserInfoWarp},
         data() {
@@ -38,16 +38,23 @@
                 this.getMenu()
             },
             getMenu() {
+                this.dataInfo = this.$route.params.item;
+                let name;
+                if (this.$route.params.type === 1) {
+                    this.title = '公司动态';
+                    name = '动态详情';
+                } else {
+                    this.title = '医生简介';
+                    name = '医生简介';
+                }
                 this.navList = [
                     {
                         to: {
                             path: 'doctorInfo',
                         },
-                        name: '医生简介'
+                        name: name
                     },
                 ];
-                this.dataInfo = this.$route.params.item;
-                window.console.log(this.dataInfo,'this.dataInfo')
             },
         },
         mounted() {
@@ -58,6 +65,7 @@
 
 <style lang='less' scoped>
     @import "../../styles/custom.less";
+
     .doctor-info {
         .pc-cell {
             display: flex;

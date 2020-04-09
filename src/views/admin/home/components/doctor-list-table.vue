@@ -9,7 +9,6 @@
 </template>
 
 <script>
-    //例如：import 《组件名称》 from '《组件路径》'
     import AdminSearch from '../../../../components/web-search'
     import DoctorListModal from './doctor-list-modal'
     import {operation} from "../../../../js/render";
@@ -43,7 +42,8 @@
                 columns: [
                     {
                         title: '序号',
-                        type: 'index'
+                        type: 'index',
+                        width: 100
                     },
                     {
                         title: '地区',
@@ -73,6 +73,8 @@
                 GetRegion(this.params).then(res => {
                     if (res.status) {
                         this.dataList = res.data.dataList || []
+                    }else {
+                        this.$Notice.warning({title: '错误', desc: res.msg})
                     }
                 })
             },

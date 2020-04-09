@@ -285,12 +285,12 @@ const routes = [
                 component: () => import('../views/user/search.vue')
             },
             {
-                path: '/doctorInfo',
+                path: '/dataInfo',
                 meta: {
                     title: "医生简介",
                 },
-                name: "DOCTORINFO",
-                component: () => import('../views/user/doctor-info.vue')
+                name: "DATAINFO",
+                component: () => import('../views/user/data-info.vue')
             }
         ]
     },

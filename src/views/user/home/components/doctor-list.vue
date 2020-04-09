@@ -55,9 +55,10 @@
         methods: {
             goDoctorInfo(item){
                 this.$router.push({
-                    name: "DOCTORINFO",
+                    name: "DATAINFO",
                     params: {
-                        item: item
+                        item: item,
+                        type:2
                     }
                 });
             },

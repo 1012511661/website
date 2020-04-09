@@ -1,6 +1,6 @@
 <template>
     <div class='admin-nav-table'>
-        <AdminSearch :isShowBack="true" @on-search="onSearch" @on-add-item="onAddItem"
+        <AdminSearch :isShowBack="true" :isSearch="false" @on-add-item="onAddItem"
                      @on-back-item="onBackItem"></AdminSearch>
         <Table :columns="columns" :data="dataList"></Table>
         <AdminNavInfoModal v-model="showModal" :menuId="menuId" :info="info" @upload-nav-table="uploadInfoList"
@@ -15,6 +15,7 @@
     import {deepCopy} from "../../../js/common";
     import {GetMenuInfo, DelMenuInfoId} from '../../../api/web'
     import moment from 'moment';
+    import {typeCode} from "../../../js/code";
 
     export default {
         name: "admin-nav-table",
@@ -49,7 +50,7 @@
                     {
                         title: '序号',
                         type: 'index',
-                        width: 80
+                        width: 100
                     },
                     {
                         title: '标题',
@@ -64,6 +65,10 @@
                         key: 'menuName'
                     },
                     {
+                        title: '父级类型',
+                        key: 'typeName'
+                    },
+                    {
                         title: '操作',
                         render: operationRender,
                         width: 200
@@ -74,8 +79,6 @@
             }
         },
         methods: {
-            onSearch() {
-            },
             onAddItem() {
                 this.showModal = true;
             },
@@ -83,11 +86,14 @@
                 GetMenuInfo({menuId: this.menuId}).then(res => {
                     if (res.status) {
                         this.dataList = res.data.map(item => {
-                            item.gmtUpdated = moment(item.gmtUpdated).format("YYYY-MM-DD");
+                            let status = typeCode.find(find => find.typeId === item.menuPo.menuType);
+                            item.typeName = (status || typeCode[0]).typeName;
+                            item.gmtUpdated = moment(item.gmtUpdated).format("YYYY-MM-DD HH:mm:ss");
                             item.menuName = item.menuPo.menuName||'';
                             return item;
                         })
                     } else {
+                        this.$Notice.warning({title: '错误', desc: res.msg})
                     }
                 })
             },
@@ -103,10 +109,17 @@
                 this.info = deepCopy(params)
             },
             onDel(params) {
-                DelMenuInfoId({infoId:params.infoId}).then(res => {
-                    if (res.status) {
-
-                    } else {
+                this.$Modal.confirm({
+                    title: '確定刪除？',
+                    onOk: () => {
+                        DelMenuInfoId({infoId:params.infoId}).then(res => {
+                            if (res.status) {
+                                this.$Notice.success({title: '成功', desc: '删除成功'});
+                                this.getDataList()
+                            } else {
+                                this.$Notice.warning({title: '错误', desc: res.msg})
+                            }
+                        })
                     }
                 })
             },

@@ -8,7 +8,6 @@
     </div>
 </template>
 <script>
-    //例如：import 《组件名称》 from '《组件路径》'
     import AdminSearch from '../../../../components/web-search'
     import DoctorUserModal from './doctor-user-modal'
     import {operation} from "../../../../js/render";
@@ -39,16 +38,13 @@
                 columns: [
                     {
                         title: '序号',
-                        type: 'index'
+                        type: 'index',
+                        width: 100
                     },
                     {
                         title: '姓名',
                         key: 'cdName'
                     },
-                    // {
-                    //     title: '医院',
-                    //     key: 'doctor'
-                    // },
                     {
                         title: '图片地址',
                         key: 'cdPicture'
@@ -78,6 +74,8 @@
                 GetRegionId(this.params).then(res => {
                     if (res.status) {
                         this.dataList = res.data.dataList || []
+                    }else {
+                        this.$Notice.warning({title: '错误', desc: res.msg})
                     }
                 })
             },

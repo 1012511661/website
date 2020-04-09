@@ -5,7 +5,6 @@
                 <div :class="{'comp-cell':true, 'video-cell':!isShowSmall}">
                     <div class="title-warp video-title">
                         <span class="title">公司简介</span>
-                        <!--                        <i class="icon-more" style="">更多>></i>-->
                     </div>
                     <video :src="videoSrc" controls="controls" class="video" width="100%"
                            height="250px"
@@ -20,12 +19,13 @@
                             <div class="img-list" v-if="!isShowSmall">
                                 <!-- img-list -->
                                 <div class="item">
-                                    <img :src="srcList[currentIndex].src" style="">
+                                    <img :src="dataList[currentIndex].infoPicture||errImg"
+                                         style="">
                                 </div>
                                 <!-- 按鈕組-->
                                 <div class="page">
                                     <ul>
-                                        <li v-for="(item,index) in srcList" @click="gotoPage(index)"
+                                        <li v-for="(item,index) in dataList" @click="gotoPage(index)"
                                             :class="{'current':currentIndex == index,'li-icon':true}">
                                         </li>
                                     </ul>
@@ -33,13 +33,13 @@
                             </div>
                             <div class="upload-list">
                                 <template v-for="(item,index) in dataList">
-                                    <div :key="index" class="upload-list-cell">
+                                    <div :key="index" class="upload-list-cell" @click="goDataInfo(item)">
                                         <Icon type="ios-eye-outline" style="color: green;"/>
                                         <span class="title">
-                                            {{item.text}}
+                                            {{item.infoName}}
                                         </span>
                                         <i>
-                                            {{item.time}}
+                                            {{item.gmtUpdated|timeFilter}}
                                         </i>
                                     </div>
                                 </template>
@@ -53,7 +53,8 @@
 </template>
 
 <script>
-    import {GetMenuArticle, GetCompany} from "../../../../api/web";
+    import {GetMenuArticle} from "../../../../api/web";
+    import moment from 'moment';
 
     export default {
         name: "company-upload",
@@ -61,62 +62,8 @@
         components: {},
         data() {
             return {
-                dataList: [
-                    {
-                        text: '重磅！中国医药工业百强榜发布',
-                        time: '03-26'
-                    },
-                    {
-                        text: '创意挥洒颈腰康蓝 万人—— 修…',
-                        time: '11-29'
-                    },
-                    {
-                        text: '创意挥洒颈腰康蓝 万人—— 修…',
-                        time: '11-29'
-                    },
-                    {
-                        text: '创意挥洒颈腰康蓝 万人—— 修…',
-                        time: '11-29'
-                    },
-                    {
-                        text: '创意挥洒颈腰康蓝 万人力挺中…',
-                        time: '11-29'
-                    },
-                    {
-                        text: '创意挥洒颈腰康蓝 万人力…',
-                        time: '11-29'
-                    },
-                    {
-                        text: '创意挥洒颈腰康蓝 万人力挺中国脊梁—— 修…',
-                        time: '11-29'
-                    },
-                    {
-                        text: '创意挥洒颈腰康蓝 万人力挺中国脊梁—— 修…',
-                        time: '11-29'
-                    },
-                    {
-                        text: '创意挥洒颈腰康蓝 万人力挺中国脊梁—— 修…',
-                        time: '11-29'
-                    },
-                ],
-                srcList: [
-                    {
-                        src: require("../../../../assets/upload1.jpg"),
-                        id: 1
-                    },
-                    {
-                        src: require("../../../../assets/upload2.jpg"),
-                        id: 2
-                    },
-                    {
-                        src: require("../../../../assets/upload1.jpg"),
-                        id: 3
-                    },
-                    {
-                        src: require("../../../../assets/upload2.jpg"),
-                        id: 4
-                    }
-                ],
+                dataList: [],
+                errImg: require("../../../../assets/404.jpg"),
                 currentIndex: 0,   //默认显示图片
                 timer: null,    //定时器
                 value1: 0,
@@ -129,11 +76,16 @@
             },
             //下一张
             nextIndex() {
-                if (this.currentIndex == this.srcList.length - 1) {
+                if (this.currentIndex == this.dataList.length - 1) {
                     return 0;
                 } else {
                     return this.currentIndex + 1;
                 }
+            }
+        },
+        filters: {
+            timeFilter(val) {
+                return val ? moment(val).format("MM-DD") : '';
             }
         },
         methods: {
@@ -147,13 +99,25 @@
                     this.gotoPage(this.nextIndex)
                 }, 3000)
             },
+            // 详情
+            goDataInfo(item){
+                this.$router.push({
+                    name: "DATAINFO",
+                    params: {
+                        item: item,
+                        type:1
+                    }
+                });
+            },
             init() {
                 this.bus.$on("companyVideoUrl", msg => {
                     this.videoSrc = msg
                 });
                 GetMenuArticle({searchInfo: ''}).then(res => {
                     if (res.status) {
-                        window.console.log(res, 'ssss')
+                        this.dataList = res.data.splice(0, 7) || [];
+                    } else {
+                        this.$Notice.warning({title: '错误', desc: res.msg})
                     }
                 })
             }
@@ -163,7 +127,8 @@
             this.init()
         },
         beforeDestroy() {
-            clearInterval(this.timer)
+            clearInterval(this.timer);
+            this.bus.$off('companyVideoUrl')
         },
     }
 </script>
@@ -234,6 +199,7 @@
 
                     .title {
                         width: 82%;
+                        padding-left: 5px;
                         display: inline-block;
                         .eclipsis(1);
                     }
@@ -250,7 +216,7 @@
                 img {
                     width: 200px;
                     height: 245px;
-                    object-fit: cover;
+                    object-fit: fill;
                 }
             }
 

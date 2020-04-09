@@ -146,14 +146,6 @@
                             this.$Notice.warning({title: '错误', desc: res.msg})
                         }
                     })
-                    // axios.post(`http://10.0.5.127:8082/ws/menu/import`, formData)
-                    //     .then(res => {
-                    //         if(res.status){
-                    //             this.$Notice.success({title: '成功', desc: '图片上传成功'})
-                    //         }else{
-                    //             this.$Notice.warning({title: '错误', desc: res.msg||'系统或错误'})
-                    //         }
-                    //     })
                 }
             }
         }

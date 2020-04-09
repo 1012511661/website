@@ -98,7 +98,7 @@
                                 this.showModal = false;
                                 this.$emit('upload-nav-table')
                             } else {
-
+                                this.$Notice.warning({title: '错误', desc: res.msg})
                             }
                         })
 
