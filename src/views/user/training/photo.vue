@@ -7,7 +7,7 @@
 
 <script>
     import UserConType from "../components/user-content-type"
-    import {GetMenuId, GetMenuInfo} from "../../../api/web";
+    import {GetMenuInfo} from "../../../api/web";
 
     export default {
         name: "photo",

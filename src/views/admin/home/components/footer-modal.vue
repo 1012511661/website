@@ -5,7 +5,6 @@
                 <AdminTabs class="tabs" :current="activeId"
                            :tabs="['基本信息', '二维码']"
                            @on-change="onClick"></AdminTabs>
-                <div style="margin-top: 20px"></div>
                 <template v-if="!activeId">
                     <Form ref="infoFrom" :model="infoFrom" :rules="infoRules" :label-width="80"
                           class="from-content">

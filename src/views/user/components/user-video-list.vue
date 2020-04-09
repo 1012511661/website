@@ -4,7 +4,7 @@
             <Row>
                 <template v-for="item in dataList">
                     <Col :xs="12" :sm="8" :md="8" :lg="8">
-                        <div class="list-warp" style="" :key="item.id" @click="goInfo(item.id)">
+                        <div class="list-warp" style="" :key="item.id" @click="goInfo(item)">
                             <div class="video-cell">
                                 <video :src="item.src"
                                        controls="controls"
@@ -47,9 +47,9 @@
             }
         },
         methods: {
-            goInfo(id) {
+            goInfo(item) {
                 this.isShowInfo = false;
-                this.dataInfo = this.dataList[id]
+                this.dataInfo = item;
             },
             // 返回
             goSteps() {

@@ -61,11 +61,7 @@
                     },
                     {
                         title: '父级名',
-                        key: 'gmtUpdated'
-                    },
-                    {
-                        title: '父级类型',
-                        key: 'gmtUpdated'
+                        key: 'menuName'
                     },
                     {
                         title: '操作',
@@ -88,6 +84,7 @@
                     if (res.status) {
                         this.dataList = res.data.map(item => {
                             item.gmtUpdated = moment(item.gmtUpdated).format("YYYY-MM-DD");
+                            item.menuName = item.menuPo.menuName||'';
                             return item;
                         })
                     } else {

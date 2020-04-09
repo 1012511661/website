@@ -51,10 +51,6 @@
             onLogin() {
                 this.$refs.loginForm.validate(valid => {
                     if (valid) {
-                        window.console.log({
-                            email: this.loginForm.email,
-                            password: md5(this.loginForm.password)
-                        },'123')
                         PutUserLogin({
                             email: this.loginForm.email,
                             password: md5(this.loginForm.password)
@@ -66,6 +62,8 @@
                             } else {
                                 this.$Notice.warning({title: '错误', desc: res.msg})
                             }
+                        }).catch(err=>{
+                            window.console.log(err,'11111111111')
                         })
                     }else{
                         this.$Notice.warning({title: '错误', desc: '请填写正确信息'})

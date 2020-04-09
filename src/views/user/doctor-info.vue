@@ -1,13 +1,12 @@
 <template>
-    <!--    木竭胶囊-->
-    <div class="capsule">
+    <div class="doctor-info">
         <UserTwoBanner></UserTwoBanner>
         <!-- 左侧 -->
         <div :class="{'content-cell':true, 'pc-cell':!isShowSmall}">
             <UserTwoNav :navList="navList" :title="title" :search="true"></UserTwoNav>
             <!-- 右侧 -->
             <div class="content-right">
-                <UserConType :type="4" :dataInfo="dataInfo" isBack="false"></UserConType>
+                <UserInfoWarp :dataInfo="dataInfo" :isBack="false"></UserInfoWarp>
             </div>
         </div>
     </div>
@@ -16,22 +15,17 @@
 <script>
     import UserTwoBanner from "./components/user-two-banner"
     import UserTwoNav from "./components/user-two-nav"
-    import UserConType from "./components/user-content-type"
+    import UserInfoWarp from "./components/user-info-warp"
 
     export default {
         name: "doctor-info",
         props: {},
-        components: {UserTwoBanner, UserTwoNav, UserConType},
+        components: {UserTwoBanner, UserTwoNav, UserInfoWarp},
         data() {
             return {
                 navList: [],
                 title: '医生简介',
-                dataInfo: {
-                    id: 1,
-                    title: '一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十',
-                    time: '2019-20-20',
-                    content: '11111111111111111111111111111111111111'
-                },
+                dataInfo: {},
             }
         },
         computed: {
@@ -47,11 +41,13 @@
                 this.navList = [
                     {
                         to: {
-                            path: 'search',
+                            path: 'doctorInfo',
                         },
-                        name: '站内搜索'
+                        name: '医生简介'
                     },
-                ]
+                ];
+                this.dataInfo = this.$route.params.item;
+                window.console.log(this.dataInfo,'this.dataInfo')
             },
         },
         mounted() {
@@ -62,8 +58,7 @@
 
 <style lang='less' scoped>
     @import "../../styles/custom.less";
-
-    .capsule {
+    .doctor-info {
         .pc-cell {
             display: flex;
         }

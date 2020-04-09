@@ -22,7 +22,6 @@
                     </div>
                 </Sider>
                 <Content :style="{padding: '15px 15px 30px 15px'}">
-<!--                    <ASD></ASD>-->
                     <router-view :style="{'height': '100%'}"></router-view>
                 </Content>
             </Layout>
@@ -31,10 +30,9 @@
 </template>
 <script>
     import HeaderWarp from "./header-warp"
-import ASD from './asd'
     export default {
         name: "admin",
-        components: {HeaderWarp,ASD},
+        components: {HeaderWarp},
         data() {
             return {
                 navList: [

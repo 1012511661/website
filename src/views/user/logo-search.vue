@@ -7,6 +7,7 @@
 </template>
 
 <script>
+    import {GetMenuArticle} from '../../api/web'
     export default {
         name: "logo-search",
         props: {},
@@ -21,12 +22,24 @@
         methods: {
             onSearch() {
                 if (!this.searchInfo) return;
-                this.$router.push({
-                    name: "SEARCH",
-                    query: {
-                        searchInfo: this.searchInfo
+                GetMenuArticle().then(res=>{
+                    if(res.status){
+                        // this.$router.push({
+                        //     name: "SEARCH",
+                        //     params: {
+                        //         item:
+                        //         searchInfo: this.searchInfo
+                        //     }
+                        // });
+                        window.console.log(res,'ssssss')
                     }
-                });
+                })
+                // this.$router.push({
+                //     name: "SEARCH",
+                //     query: {
+                //         searchInfo: this.searchInfo
+                //     }
+                // });
             }
         }
     }

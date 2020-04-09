@@ -14,7 +14,7 @@
         <Row>
             <template v-for="(item,index) in doctorList">
                 <Col :xs="12" :sm="6" :md="6" :lg="6">
-                    <div class="list-warp" style="">
+                    <div class="list-warp" :key="index" @click="goDoctorInfo(item)">
                         <div class="img-cell">
                             <img :src="item.cdSrc||'http://health.people.com.cn/NMediaFile/2019/1121/MAIN201911211553000135939888312.jpg'">
                         </div>
@@ -53,6 +53,14 @@
             }
         },
         methods: {
+            goDoctorInfo(item){
+                this.$router.push({
+                    name: "DOCTORINFO",
+                    params: {
+                        item: item
+                    }
+                });
+            },
             init() {
                 this.getDoctor()
             },
@@ -67,9 +75,15 @@
                 })
             },
             getDoctorList(id) {
-                GetRegionId(id).then(res => {
+                let params= {
+                    pageNum: 1,
+                    pageSize: 10000,
+                    searchInfo: '',
+                    regionId: id
+                }
+                GetRegionId(params).then(res => {
                     if (res.status) {
-                        this.doctorList = res.data || []
+                        this.doctorList = res.data.dataList || []
                     } else {
                         this.$Notice.warning({title: '错误', desc: res.msg})
                     }

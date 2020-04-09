@@ -43,6 +43,7 @@
                 GetCompany().then(res => {
                     if (res.status) {
                         this.infoFrom = res.data || {};
+                        this.bus.$emit("companyVideoUrl", res.data.companyVideoUrl);
                     } else {
                         this.$Notice.warning({title: '错误', desc: res.msg})
                     }

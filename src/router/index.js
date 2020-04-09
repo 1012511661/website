@@ -285,7 +285,7 @@ const routes = [
                 component: () => import('../views/user/search.vue')
             },
             {
-                path: '/doctor-info',
+                path: '/doctorInfo',
                 meta: {
                     title: "医生简介",
                 },

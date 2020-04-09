@@ -1,5 +1,4 @@
 <template>
-    <!--    木竭胶囊-->
     <div class="capsule">
         <UserTwoBanner></UserTwoBanner>
         <!-- 左侧 -->
@@ -7,7 +6,7 @@
             <UserTwoNav :navList="navList" :title="title" :search="true"></UserTwoNav>
             <!-- 右侧 -->
             <div class="content-right">
-                <UserConType :type="2" :dataList="dataList"></UserConType>
+                <UserConType :type="type" :dataList="dataList" :dataInfo="dataInfo"></UserConType>
             </div>
         </div>
     </div>
@@ -26,23 +25,9 @@
             return {
                 navList: [],
                 title: '站内搜索',
-                dataList: [
-                    {
-                        id: 1,
-                        title: '一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十',
-                        time: '2019-20-20'
-                    },
-                    {
-                        id: 2,
-                        title: '一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十',
-                        time: '2019-20-20'
-                    },
-                    {
-                        id: 3,
-                        title: 'This is title 3',
-                        time: '2019-20-20'
-                    }
-                ]
+                dataList: [],
+                dataInfo: {},
+                type: 2
             }
         },
         computed: {

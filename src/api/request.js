@@ -1,10 +1,10 @@
 import axios from "axios"
 
 // axios.defaults.baseURL = "http://39.101.203.68:8082/ws";
-// axios.defaults.baseURL = "http://10.0.5.158:8082/ws";
-axios.defaults.baseURL = "/api";
+// axios.defaults.baseURL = "http://10.0.5.127:8082/ws";
 
-axios.defaults.timeout = 1000 * 60;//设置请求超时
+axios.defaults.baseURL = "/api";
+axios.defaults.timeout = 1000 * 500;//设置请求超时
 
 let cacheRequestList = []; //声明一个数组用于存储每个请求
 let cancelToken = axios.CancelToken;
@@ -29,11 +29,11 @@ function createUuid(request) {
 
 axios.interceptors.request.use(
     request => {
-        removePending(request); //在一个发送前执行一下取消操作
-        request.cancelToken = new cancelToken((c) => {
-            // 这里的标识我是用请求地址&请求方式拼接的字符串，当然你可以选择其他的一些方式
-            cacheRequestList.push({uuid: createUuid(request), cancel: c});
-        });
+        // removePending(request); //在一个发送前执行一下取消操作
+        // request.cancelToken = new cancelToken((c) => {
+        //     // 这里的标识我是用请求地址&请求方式拼接的字符串，当然你可以选择其他的一些方式
+        //     cacheRequestList.push({uuid: createUuid(request), cancel: c});
+        // });
         return request;
     },
     error => {

@@ -6,10 +6,13 @@
                     <Input v-model="infoFrom.infoName" placeholder="请输入" :maxlength="32" class="input"/>
                 </FormItem>
                 <FormItem label="封面(只针对图片列表)">
-                    <AdminUpload footTitle="图片尺寸 250*185"></AdminUpload>
+                    <AdminUpload :multiple="false" :defaultList="[]" :widthImg="250" :heightImg="185"
+                                 footTitle="图片尺寸 250*185" ref="AdminUpload"></AdminUpload>
                 </FormItem>
                 <FormItem label="内容">
-                    <div id="websiteEditorElem" style="height:300px;background: #ffffff;"></div>
+                    <div ref="websiteEditorElem" id="websiteEditorElem" style="height:300px;background: #ffffff;">
+                        <div>{{this.infoFrom.infoInfo}}</div>
+                    </div>
                 </FormItem>
             </Form>
         </div>
@@ -21,7 +24,6 @@
     import AdminUpload from '../components/admin-upload'
     import E from "wangeditor";
     import {PostMenuInfo, PutMenuInfo} from '../../../api/web'
-    import qs from 'qs'
 
     export default {
         name: "admin-nav-modal",
@@ -77,6 +79,7 @@
                         infoInfo: '',
                     }
                 } else {
+                    this.infoFrom = this.info;
                     // this.Ewangeditor()
                 }
             },
@@ -86,7 +89,7 @@
         },
         methods: {
             Ewangeditor() {
-                this.phoneEditor = new E('#websiteEditorElem');
+                this.phoneEditor = new E(this.$refs.websiteEditorElem);
                 // 上传图片到服务器，base64形式
                 this.phoneEditor.customConfig.uploadImgShowBase64 = true;
                 // 隐藏网络图片
@@ -94,16 +97,24 @@
                 // 创建一个富文本编辑器
                 this.phoneEditor.create();
                 // 富文本内容
-                this.phoneEditor.txt.html()
+                // this.phoneEditor.txt.html(this.infoFrom.infoInfo)
             },
             onSave() {
-
                 this.$refs.infoFrom.validate((valid) => {
                     if (valid) {
+                        let _arr = this.$refs.AdminUpload.fileArr;
+                        var formData = new FormData();
+                        if(_arr.length){
+                            formData.append(`file`, _arr[0]);
+                        }
+                        formData.append(`infoName`, this.infoFrom.infoName);
+                        formData.append(`infoId`, this.infoFrom.infoId||null);
+                        formData.append(`infoInfo`, this.phoneEditor.txt.html());
+                        formData.append(`menuId`, this.menuId);
                         this.infoFrom.infoInfo = this.phoneEditor.txt.html();
                         this.infoFrom.menuId = this.menuId;
                         if (this.infoFrom.infoId) {//修改
-                            PutMenuInfo(qs.stringify(this.infoFrom)).then(res => {
+                            PutMenuInfo(formData).then(res => {
                                 if (res.status) {
                                     this.showModal = false;
                                     this.$emit('upload-nav-table')
@@ -112,7 +123,7 @@
                                 }
                             })
                         } else {//新增
-                            PostMenuInfo(qs.stringify(this.infoFrom)).then(res => {
+                            PostMenuInfo(formData).then(res => {
                                 if (res.status) {
                                     this.showModal = false;
                                     this.$emit('upload-nav-table')
@@ -128,6 +139,7 @@
             }
         },
         mounted() {
+
             this.Ewangeditor();
         }
     }

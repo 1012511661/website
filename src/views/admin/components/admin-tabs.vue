@@ -47,7 +47,7 @@
             },
         },
         watch: {
-            current(n,o){
+            current(n, o) {
                 this.currentTabs = n
             }
         }
@@ -61,6 +61,7 @@
     @tab-border-size: 4px;
     .tabs-wrap {
         display: flex;
+        margin-bottom: 20px;
 
         .tab {
             width: 120px;

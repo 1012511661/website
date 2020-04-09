@@ -39,6 +39,7 @@
 
 <style lang='less' scoped>
     .demo-carousel {
+        height: 400px;
         max-height: 400px !important;
         overflow: hidden;
     }

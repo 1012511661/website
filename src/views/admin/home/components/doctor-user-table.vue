@@ -12,7 +12,7 @@
     import AdminSearch from '../../../../components/web-search'
     import DoctorUserModal from './doctor-user-modal'
     import {operation} from "../../../../js/render";
-    import {GetRegionId,DelCadId} from '../../../../api/web'
+    import {GetRegionId, DelCadId} from '../../../../api/web'
     import {deepCopy} from "../../../../js/common";
 
     export default {
@@ -51,7 +51,7 @@
                     // },
                     {
                         title: '图片地址',
-                        key: 'src'
+                        key: 'cdPicture'
                     },
                     {
                         title: '操作',
@@ -60,7 +60,13 @@
                     }
                 ],
                 dataList: [],
-                regionId: null
+                regionId: null,
+                params: {
+                    pageNum: 1,
+                    pageSize: 10000,
+                    searchInfo: '',
+                    regionId: null
+                }
             }
         },
         computed: {},
@@ -68,14 +74,16 @@
         methods: {
             getDataList(id) {
                 this.regionId = id;
-                GetRegionId(id).then(res => {
+                this.params.regionId = id;
+                GetRegionId(this.params).then(res => {
                     if (res.status) {
-                        this.dataList = res.data || []
+                        this.dataList = res.data.dataList || []
                     }
                 })
             },
             onSearch(msg) {
-                window.console.log(msg, '搜索')
+                this.params.searchInfo = msg;
+                this.getDataList(this.regionId);
             },
             onAddItem() {
                 this.showUserModal = true;
@@ -88,15 +96,18 @@
                 this.showUserModal = true;
                 this.id = params.cdId;
                 this.$refs.DoctorUserModal.infoFrom = deepCopy(params);
+                this.$refs.DoctorUserModal.srcList =[params.cdPicture];
             },
             onDel(params) {
                 this.$Modal.confirm({
                     title: '確定刪除？',
                     onOk: () => {
-                        DelCadId (params.cdId).then(res => {
+                        DelCadId(params.cdId).then(res => {
                             if (res.status) {
-                                this.$Notice.success('刪除成功');
-                                this. getDataList(this.regionId);
+                                this.$Notice.success({title: '成功', desc: '删除成功'});
+                                this.getDataList(this.regionId);
+                            }else{
+                                this.$Notice.warning({title: '错误', desc: res.msg})
                             }
                         })
                     }

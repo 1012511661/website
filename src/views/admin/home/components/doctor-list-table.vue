@@ -3,7 +3,8 @@
         <AdminSearch @on-search="onSearch" @on-add-item="onAddItem"></AdminSearch>
         <Table :columns="columns" :data="dataList"></Table>
         <DoctorListModal v-model="showListModal" @upload-doctor-list="onUploadList" :len="dataList.length"
-                         :title="infoFrom.regionId?'修改':'添加'" :infoData="infoFrom" ref="DoctorListModal"></DoctorListModal>
+                         :title="infoFrom.regionId?'修改':'添加'" :infoData="infoFrom"
+                         ref="DoctorListModal"></DoctorListModal>
     </div>
 </template>
 
@@ -12,7 +13,7 @@
     import AdminSearch from '../../../../components/web-search'
     import DoctorListModal from './doctor-list-modal'
     import {operation} from "../../../../js/render";
-    import {GetRegion,DelVote} from "../../../../api/web"
+    import {GetRegion, DelVote} from "../../../../api/web"
 
     export default {
         name: "doctor-list-table",
@@ -50,7 +51,7 @@
                     },
                     {
                         title: '排序',
-                        key: 'order'
+                        key: 'regionNumber'
                     },
                     {
                         title: '操作',
@@ -59,19 +60,25 @@
                     }
                 ],
                 dataList: [],
-                infoFrom: {}
+                infoFrom: {},
+                params: {
+                    pageNum: 1,
+                    pageSize: 100000,
+                    searchInfo: ''
+                }
             }
         },
         methods: {
             init() {
-                GetRegion().then(res => {
+                GetRegion(this.params).then(res => {
                     if (res.status) {
                         this.dataList = res.data.dataList || []
                     }
                 })
             },
             onSearch(msg) {
-                window.console.log(msg, '搜索')
+                this.params.searchInfo = msg;
+                this.init();
             },
             onAddItem() {
                 this.showListModal = true;
@@ -86,14 +93,16 @@
             onUser(params) {
                 this.$emit('show-user-table', params)
             },
-            onDel(params){
+            onDel(params) {
                 this.$Modal.confirm({
                     title: '確定刪除？',
                     onOk: () => {
-                        DelVote (params.regionId).then(res => {
+                        DelVote(params.regionId).then(res => {
                             if (res.status) {
                                 this.$Notice.success({title: '成功', desc: '删除成功'});
                                 this.init();
+                            }else{
+                                this.$Notice.warning({title: '错误', desc: res.msg})
                             }
                         })
                     }

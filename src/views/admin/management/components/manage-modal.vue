@@ -111,8 +111,15 @@
                 if (!this.activeId) {
                     this.$refs.manageFrom.validate((valid) => {
                         if (valid) {
-                            PutMenuUpdate(this.manageFrom).then(res => {
+                            let _arr = this.$refs.AdminUpload.fileArr;
+                            var formData = new FormData();
+                            formData.append('menuId', this.manageFrom.menuId);
+                            for (var i = 0; i < _arr.length; i++) {
+                                formData.append(`files`, _arr[i]); // 文件对象
+                            }
+                            PutMenuUpdate(formData).then(res => {
                                 if (res.status) {
+                                    this.$Notice.success({title: '成功', desc: '修改信息'})
                                     this.showModal = false;
                                     this.$emit('upload-manage')
                                 } else {
@@ -124,7 +131,29 @@
                         }
                     })
                 } else {
-                    this.$refs.AdminUpload.upload(this.manageFrom);
+                    let _arr = this.$refs.AdminUpload.fileArr;
+                    var formData = new FormData();
+                    formData.append('menuId', this.manageFrom.menuId);
+                    for (var i = 0; i < _arr.length; i++) {
+                        formData.append(`files`, _arr[i]); // 文件对象
+                    }
+                    PostMenuImport(formData).then(res => {
+                        if (res.status) {
+                            this.$Notice.success({title: '成功', desc: '上传图片成功'})
+                            this.showModal = false;
+                            this.$emit('upload-manage')
+                        } else {
+                            this.$Notice.warning({title: '错误', desc: res.msg})
+                        }
+                    })
+                    // axios.post(`http://10.0.5.127:8082/ws/menu/import`, formData)
+                    //     .then(res => {
+                    //         if(res.status){
+                    //             this.$Notice.success({title: '成功', desc: '图片上传成功'})
+                    //         }else{
+                    //             this.$Notice.warning({title: '错误', desc: res.msg||'系统或错误'})
+                    //         }
+                    //     })
                 }
             }
         }

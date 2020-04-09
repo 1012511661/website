@@ -23,7 +23,7 @@ export const GetRegion = params => request.get("/region", {params});
 // 查询所有投票地区 + 下面的候选人详情
 export const GetRegionCan = params => request.get("/region/candidates", {params});
 // 查询某一地区下所有候选人
-export const GetRegionId = regionId => request.get(`/cad/${regionId}`);
+export const GetRegionId = params => request.get(`/cad`,{params});
 // 投票
 export const PutVote = params => request.put("/cad/vote", params);
 // 修改地区
@@ -46,3 +46,6 @@ export const PutCompany = params => request.put("/company", params);
 export const GetCompany = () => request.get("/company");
 // 上传公司logo二维码图片
 export const PostCompanyImport = params => request.post("/company/import", params);
+
+// 首页查询菜单文章列表
+export const GetMenuArticle = params => request.get("/menu/article",{params});

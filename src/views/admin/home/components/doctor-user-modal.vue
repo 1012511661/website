@@ -2,19 +2,19 @@
     <div class=''>
         <AdminModal v-model="showModal" :title="title" @on-ok="onSave" width="850">
             <div class="doctor-user-content">
-                {{regionId}}--{{infoFrom}}
                 <Form ref="infoFrom" :model="infoFrom" :rules="infoRules" :label-width="80">
                     <FormItem label="姓名" prop="cdName">
                         <Input v-model="infoFrom.cdName" placeholder="请输入" :maxlength="10" class="input"/>
                     </FormItem>
-                    <FormItem label="电话" prop="cdMobile">
-                        <Input v-model="infoFrom.cdMobile" placeholder="请输入" :maxlength="10" class="input" type="tel"/>
+                    <FormItem label="电话">
+                        <Input v-model="infoFrom.cdMobile" placeholder="请输入" class="input" type="tel"/>
                     </FormItem>
-                    <FormItem label="邮箱" prop="cdEmail">
-                        <Input v-model="infoFrom.cdEmail" placeholder="请输入" :maxlength="10" class="input" type="email"/>
+                    <FormItem label="邮箱">
+                        <Input v-model="infoFrom.cdEmail" placeholder="请输入" class="input" type="email"/>
                     </FormItem>
                     <FormItem label="图片地址">
-                        <AdminUpload footTitle="图片尺寸 150*185"></AdminUpload>
+                        <AdminUpload :multiple="false" :defaultList="[srcList]" :widthImg="150" :heightImg="185"
+                                     footTitle="图片尺寸 150*185" ref="AdminUpload"></AdminUpload>
                     </FormItem>
                     <FormItem label="内容">
                         <div id="websiteEditorElem" style="height:300px;background: #ffffff;"></div>
@@ -29,7 +29,6 @@
     import AdminModal from '../../../../components/web-modal'
     import AdminUpload from '../../components/admin-upload'
     import {PostCad, PutCad} from '../../../../api/web'
-    import qs from 'qs'
     import E from "wangeditor";
 
     export default {
@@ -64,12 +63,12 @@
                     cdMobile: [
                         {required: true, message: ' ', trigger: 'blur'}
                     ],
-
                     cdEmail: [
                         {required: true, message: ' ', trigger: 'blur'}
                     ],
                 },
-                editor: ''
+                editor: '',
+                srcList:[]
             }
         },
         watch: {
@@ -106,10 +105,18 @@
                 this.$refs.infoFrom.validate((valid) => {
                     if (valid) {
                         this.infoFrom.regionId = this.regionId;
-                        this.infoFrom.infoInfo = this.editor.txt.html()
-                        window.console.log(this.infoFrom,'this.infoFrom')
+                        this.infoFrom.infoInfo = this.editor.txt.html();
+                        let _arr = this.$refs.AdminUpload.fileArr;
+                        var formData = new FormData();
+                        formData.append('cdId', this.infoFrom.cdId)
+                        formData.append('cdName', this.infoFrom.cdName);
+                        formData.append('cdEmail', this.infoFrom.cdEmail);
+                        formData.append('cdMobile', this.infoFrom.cdMobile);
+                        formData.append('regionId', this.regionId)
+                        formData.append('cdInfo', this.editor.txt.html());
+                        formData.append('file', _arr[0]);
                         if (this.infoFrom.cdId) {
-                            PutCad(qs.stringify(this.infoFrom)).then(res => {
+                            PutCad(formData).then(res => {
                                 if (res.status) {
                                     this.showModal = false;
                                     this.$emit('upload-doctor-user')
@@ -118,7 +125,7 @@
                                 }
                             })
                         } else {
-                            PostCad(qs.stringify(this.infoFrom)).then(res => {
+                            PostCad(formData).then(res => {
                                 if (res.status) {
                                     this.showModal = false;
                                     this.$emit('upload-doctor-user')

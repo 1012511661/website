@@ -4,15 +4,16 @@
             <p class="back-title"><i @click="goSteps"><= 返回</i></p>
         </template>
         <div class='data-info'>
-            <p class="title">{{dataInfo.title}}</p>
-            <p class="time">时间：{{dataInfo.time}}</p>
-            <div v-html="dataInfo.content"></div>
+            <p class="title">{{dataInfo.infoName||dataInfo.cdName}}</p>
+            <p class="time">时间：{{dataInfo.gmtCreated|timeFilter}}</p>
+            <div v-html="dataInfo.infoId||dataInfo.cdInfo" class="content"></div>
         </div>
     </div>
 
 </template>
 
 <script>
+    import moment from 'moment';
     export default {
         name: "user-info-warp",
         props: {
@@ -38,6 +39,11 @@
             goSteps() {
                 this.$emit('on-show-info')
             },
+        },
+        filters:{
+            timeFilter(val){
+                return  val?moment(val).format("YYYY-MM-DD HH:mm:ss"):'';
+            }
         }
     }
 </script>
@@ -73,14 +79,15 @@
             }
 
             .time {
-                text-align: center;
+                text-align: right;
                 font-size: 14px;
-                padding-top: 20px;
+                padding: 20px;
             }
 
             .content {
-                margin: 30px;
-                text-align: center;
+                font-size: 16px;
+                padding: 0 10px;
+                line-height: 30px;
             }
         }
     }

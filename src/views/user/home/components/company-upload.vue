@@ -5,9 +5,9 @@
                 <div :class="{'comp-cell':true, 'video-cell':!isShowSmall}">
                     <div class="title-warp video-title">
                         <span class="title">公司简介</span>
-<!--                        <i class="icon-more" style="">更多>></i>-->
+                        <!--                        <i class="icon-more" style="">更多>></i>-->
                     </div>
-                    <video src="https://www.w3school.com.cn/i/movie.ogg" controls="controls" class="video" width="100%"
+                    <video :src="videoSrc" controls="controls" class="video" width="100%"
                            height="250px"
                            style="padding-top: 5px;">
                     </video>
@@ -53,6 +53,8 @@
 </template>
 
 <script>
+    import {GetMenuArticle, GetCompany} from "../../../../api/web";
+
     export default {
         name: "company-upload",
         props: {},
@@ -117,10 +119,10 @@
                 ],
                 currentIndex: 0,   //默认显示图片
                 timer: null,    //定时器
-                value1: 0
+                value1: 0,
+                videoSrc: ''
             }
         },
-//监听属性 类似于data概念
         computed: {
             isShowSmall() {
                 return this.$store.state.isShowSmall
@@ -144,13 +146,22 @@
                 this.timer = setInterval(() => {
                     this.gotoPage(this.nextIndex)
                 }, 3000)
+            },
+            init() {
+                this.bus.$on("companyVideoUrl", msg => {
+                    this.videoSrc = msg
+                });
+                GetMenuArticle({searchInfo: ''}).then(res => {
+                    if (res.status) {
+                        window.console.log(res, 'ssss')
+                    }
+                })
             }
         },
-//生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
             this.runInv()
+            this.init()
         },
-//生命周期 - 销毁之前
         beforeDestroy() {
             clearInterval(this.timer)
         },

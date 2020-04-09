@@ -1,9 +1,10 @@
 <template>
     <div class='banner-modal'>
-        <ul class="file-list" v-for="(list,index) in fileArr" :key="index">
-            <li>
+        <ul class="file-list">
+            <template v-for="(list,index) in fileArrS">
+            <li :key="index">
                 <template v-if="!list.name">
-                    <p>当前显示的：</p>
+                    <p v-if="index ===0 ">当前显示的：</p>
                     <img :src="list" :style="{width:`${widthImg}px`,height:`${heightImg}px`}">
                 </template>
                 <template v-else>
@@ -12,6 +13,7 @@
                 </template>
                 <Icon type="ios-close" size="25" color="red" @click="delFileList(index)"></Icon>
             </li>
+                </template>
         </ul>
         <Upload
                 ref="upload"
@@ -33,7 +35,6 @@
 </template>
 
 <script>
-    import axios from "axios";
 
     export default {
         name: "home-banner",
@@ -63,7 +64,7 @@
         },
         data() {
             return {
-                // fileArr: [...this.defaultList],
+                fileArrS: [...this.defaultList],
                 fileArr: [],
                 file: null,
                 action: ''
@@ -71,40 +72,18 @@
         },
         watch: {
             defaultList: {
-                handler(newV, oldV) {
-                    window.console.log(newV, oldV, 'newV,oldV')
+                handler(newV) {
+                    this.fileArrS = [...newV]
                 },
                 deep: true
             }
         },
         methods: {
-            imgError() {
-                var img = event.srcElement;
-                img.src = "http://placehold.it/600x300/0f0/ccc.png";
-                img.onerror = null;
-            },
             delFileList(index) {
+                this.fileArrS.splice(index, 1);
                 this.fileArr.splice(index, 1);
             },
-            upload(info) {
-                var formData = new FormData();
-                formData.append('menuId', info.menuId);
-                for (var i = 0; i < this.fileArr.length; i++) {
-                    formData.append(`files`, this.fileArr[i]); // 文件对象
-                }
-                let config = {
-                    headers: {'Content-Type': 'multipart/form-data'}
-                };  //添加请求头
-
-                //http://39.101.203.68:8082/ws/menu/import
-                axios.post(`http://10.0.5.127:8082/ws/menu/import`, formData, {
-                    headers: {'Content-Type': 'multipart/form-data'}
-                })
-                    .then(res => {
-                        console.log('res=>', res);
-
-                    })
-
+            upload() {
             },
             // 成功
             handleSuccess(res, file) {
@@ -120,6 +99,7 @@
             // 上传文件之前
             handleBeforeUpload(file) {
                 this.fileArr.push(file);
+                this.fileArrS.push(file);
                 this.file = file;
                 return false;
             }

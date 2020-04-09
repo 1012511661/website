@@ -11,7 +11,7 @@
                 <template v-for="(item,index) in bannerList">
                     <div class="img-warp" :key="index">
                         <img :src="item" alt=""/>
-                        <AdminFootBtns @on-del="onDelItem(item, index)"></AdminFootBtns>
+<!--                        <AdminFootBtns @on-del="onDelItem(item, index)"></AdminFootBtns>-->
                     </div>
                 </template>
             </div>
@@ -31,7 +31,7 @@
                 公司信息
             </p>
             <Button slot="extra" type="primary" @click="goEditFoot">编辑</Button>
-            <FooterWarp ref="FooterWarp" ></FooterWarp>
+            <FooterWarp ref="FooterWarp"></FooterWarp>
         </Card>
         <BannerModal v-model="showBannerModal" :defaultList="bannerList"
                      @upload-order-list="uploadBannerlist"></BannerModal>
@@ -47,6 +47,7 @@
     import FooterWarp from './components/footer-warp'
     import FooterModal from './components/footer-modal'
     import {deepCopy} from "../../../js/common";
+    import {GetMenuList} from "../../../api/web";
 
     export default {
         name: "home",
@@ -63,27 +64,7 @@
                 showBannerModal: false,
                 showProModal: false,
                 showFooterModal: false,
-                bannerList: [
-                    'https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large',
-                    'https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large'],
-                aaa: [
-                    {
-                        src: require("../../../assets/banner1.jpg"),
-                        id: 1
-                    },
-                    {
-                        src: require("../../../assets/banner2.jpg"),
-                        id: 2
-                    },
-                    {
-                        src: require("../../../assets/banner3.jpg"),
-                        id: 3
-                    },
-                    {
-                        src: require("../../../assets/banner3.jpg"),
-                        id: 4
-                    }
-                ],
+                bannerList: [],
                 videoSrc: 'https://www.w3school.com.cn/i/movie.ogg',
                 companyInfo: {}
             }
@@ -98,8 +79,16 @@
             onDelItem(item, index) {
                 window.console.log(item, index, 'item,index')
             },
+            getMenuList() {
+                GetMenuList().then(res => {
+                    if (res.status) {
+                        this.bannerList = res.data[0].pictures
+                        window.console.log(res, '111111')
+                    }
+                })
+            },
             uploadBannerlist() {
-                window.console.log('更新 banner')
+                this.getMenuList();
             },
             // 公司信息
             goEditPro() {
@@ -118,6 +107,7 @@
             }
         },
         mounted() {
+            this.getMenuList()
         }
     }
 </script>
@@ -156,6 +146,7 @@
 
                     img {
                         width: 100%;
+                        height: 100%;
                         object-fit: cover
                     }
                 }

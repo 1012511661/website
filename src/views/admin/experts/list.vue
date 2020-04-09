@@ -4,7 +4,7 @@
             <AdminNavTable @on-view-list="onViewInfoList" ref="AdminNavTable"></AdminNavTable>
         </template>
         <template v-else>
-            <AdminNavInfoList @on-back-nav="onBackNav" ref="AdminNavInfoList"></AdminNavInfoList>
+            <AdminNavInfoList :menuId="menuId" @on-back-nav="onBackNav" ref="AdminNavInfoList"></AdminNavInfoList>
         </template>
     </div>
 </template>
@@ -19,23 +19,17 @@
         components: {AdminNavTable, AdminNavInfoList},
         data() {
             return {
-                isShowNav: true
+                isShowNav: true,
+                menuId: ''
             }
         },
-//监听属性 类似于data概念
-        computed: {},
-//监控data中的数据变化
-        watch: {},
-//方法集合
         methods: {
             init() {
                 this.$refs.AdminNavTable.getDataList('EXPERTS')
             },
             onViewInfoList(params) {
                 this.isShowNav = false;
-                this.$nextTick((() => {
-                    this.$refs.AdminNavInfoList.getDataList(params.menuId)
-                }))
+                this.menuId = params.menuId;
             },
             onBackNav() {
                 this.isShowNav = true;

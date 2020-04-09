@@ -72,8 +72,6 @@
         .footer-cell {
             margin: 5px;
             padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            border-right: 1px solid #eee;
             p {
                 margin: 5px;
                 font-size: 16px;

@@ -7,7 +7,7 @@
                         <Input v-model="infoFrom.regionName" placeholder="请输入地区" :maxlength="32" class="input"/>
                     </FormItem>
                     <FormItem label="排序">
-                        <InputNumber v-model="infoFrom.order" :max="999" :min="1"/>
+                        <InputNumber v-model="infoFrom.regionNumber" :max="999" :min="1"/>
                     </FormItem>
                 </Form>
             </div>
@@ -47,13 +47,13 @@
                 showModal: this.value,
                 infoFrom: {
                     regionName: '',
-                    order: this.len + 1,
+                    regionNumber: this.len + 1,
                 },
                 infoRules: {
                     regionName: [
                         {required: true, message: '名称不能为空', trigger: 'blur'}
                     ],
-                    order: [
+                    regionNumber: [
                         {required: true, message: ' ', trigger: 'blur',}
                     ],
                 }
@@ -65,7 +65,7 @@
                 if (!newV) {
                     this.infoFrom = {
                         regionName: '',
-                        order: this.len + 1
+                        regionNumber: this.len + 1
                     }
                 }
             },
