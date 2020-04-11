@@ -14,7 +14,7 @@ export const PostMenuInfo = params => request.post("/menu/info", params);
 // 修改菜单下内容详情
 export const PutMenuInfo = params => request.put("/menu/info", params);
 // 获取某菜单下内容详情列表
-export const GetMenuInfo = params => request.get("/menu/info", {params});
+export const GetMenuInfo = infoId => request.get(`/menu/info/${infoId}`);
 // 删除菜单下某菜单内容详情
 export const DelMenuInfoId = infoId => request.delete(`/menu/info/${infoId}`);
 

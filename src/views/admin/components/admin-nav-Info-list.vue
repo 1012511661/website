@@ -84,7 +84,7 @@
                 this.info = {};
             },
             getDataList() {
-                GetMenuInfo({menuId: this.menuId}).then(res => {
+                GetMenuInfo(this.menuId).then(res => {
                     if (res.status) {
                         this.dataList = res.data.map(item => {
                             let status = typeCode.find(find => find.typeId === item.menuPo.menuType);

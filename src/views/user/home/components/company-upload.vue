@@ -220,9 +220,8 @@
             }
 
             .page {
-                top: 220px;
                 position: absolute;
-                bottom: 0;
+                bottom: 10px;
                 right: 0;
 
                 ul {

@@ -13,8 +13,8 @@
                         <Input v-model="infoFrom.cdEmail" placeholder="请输入" class="input" type="email"/>
                     </FormItem>
                     <FormItem label="图片地址">
-                        <AdminUpload :multiple="false" :defaultList="[srcList]" :widthImg="150" :heightImg="185"
-                                     footTitle="图片尺寸 150*185" ref="AdminUpload"></AdminUpload>
+                        <AdminUpload :multiple="false" :defaultList="[srcList]" :widthImg="200" :heightImg="220"
+                                     footTitle="图片尺寸 200*220" ref="AdminUpload"></AdminUpload>
                     </FormItem>
                     <FormItem label="内容">
                         <div id="websiteEditorElem" style="height:300px;background: #ffffff;"></div>

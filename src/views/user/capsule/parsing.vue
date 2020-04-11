@@ -23,7 +23,7 @@
                 this.getDataList()
             },
             getDataList() {
-                GetMenuInfo({menuId: 'PARSING'}).then(res => {
+                GetMenuInfo('PARSING').then(res => {
                     if (res.status&&res.data.length) {
                         this.type = res.data[0].menuPo.menuType||0;
                         if(this.type !=3){

@@ -11,7 +11,7 @@
                       @click="onClick(index,item.regionId)">{{item.regionName}}</span>
             </template>
         </div>
-        <Row>
+        <Row class="content-warp">
             <template v-for="(item,index) in doctorList">
                 <Col :xs="12" :sm="6" :md="6" :lg="6">
                     <div class="list-warp" :key="index" @click="goDoctorInfo(item)">
@@ -53,12 +53,12 @@
             }
         },
         methods: {
-            goDoctorInfo(item){
+            goDoctorInfo(item) {
                 this.$router.push({
                     name: "DATAINFO",
                     params: {
                         item: item,
-                        type:2
+                        type: 2
                     }
                 });
             },
@@ -68,7 +68,7 @@
             getDoctor() {
                 GetRegion().then(res => {
                     if (res.status) {
-                        this.tabList = res.data.dataList|| [];
+                        this.tabList = res.data.dataList || [];
                         this.getDoctorList(res.data.dataList[0].regionId)
                     } else {
                         this.$Notice.warning({title: '错误', desc: res.msg})
@@ -76,7 +76,7 @@
                 })
             },
             getDoctorList(id) {
-                let params= {
+                let params = {
                     pageNum: 1,
                     pageSize: 10000,
                     searchInfo: '',
@@ -139,10 +139,11 @@
         .tabs-wrap {
             display: flex;
             justify-content: space-between;
-            flex-wrap:nowrap;
+            flex-wrap: nowrap;
             overflow-x: auto;
             width: 100%;
             text-align: center;
+
             .tab {
                 width: 120px;
                 height: 32px;
@@ -151,7 +152,7 @@
                 font-weight: bold;
                 .center();
                 cursor: pointer;
-                flex:1 0 auto;
+                flex: 1 0 auto;
             }
 
             .active {
@@ -160,22 +161,26 @@
             }
         }
 
-        .list-warp {
-            padding: 10px;
-            text-align: center;
+        .content-warp {
+            min-height: 300px;
 
-            .img-cell {
-                img {
-                    width: 150px;
-                    height: 185px;
-                    object-fit: initial;
+            .list-warp {
+                padding: 10px;
+                text-align: center;
+
+                .img-cell {
+                    img {
+                        width: 200px;
+                        height: 220px;
+                        object-fit: cover;
+                    }
                 }
 
                 .title {
-                    padding: 10px 0;
+                    margin: 10px 0;
                 }
-
             }
         }
+
     }
 </style>
