@@ -21,8 +21,7 @@
 
 <style lang='less' scoped>
     .two_banner {
-        height: 200px;
+        height: 300px;
         border-bottom: 2px solid #949090;
-        /*background: url("../assets/two_banner.jpg");*/
     }
 </style>

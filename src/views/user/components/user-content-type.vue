@@ -10,7 +10,7 @@
             <UserTextList :dataList="dataList"></UserTextList>
         </template>
         <template v-else>
-            <UserInfoWarp :dataInfo="dataInfo"></UserInfoWarp>
+            <UserInfoWarp :dataInfo="dataInfo" :isBack="isBack"></UserInfoWarp>
         </template>
     </div>
 </template>
@@ -40,6 +40,10 @@
                     return {}
                 }
             },
+            isBack: {
+                type: Boolean,
+                default: true
+            }
         },
         components: {UserImgList, UserVideoList, UserTextList, UserInfoWarp},
         data() {

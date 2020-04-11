@@ -81,6 +81,7 @@
         methods: {
             onAddItem() {
                 this.showModal = true;
+                this.info = {};
             },
             getDataList() {
                 GetMenuInfo({menuId: this.menuId}).then(res => {
@@ -89,7 +90,7 @@
                             let status = typeCode.find(find => find.typeId === item.menuPo.menuType);
                             item.typeName = (status || typeCode[0]).typeName;
                             item.gmtUpdated = moment(item.gmtUpdated).format("YYYY-MM-DD HH:mm:ss");
-                            item.menuName = item.menuPo.menuName||'';
+                            item.menuName = item.menuPo.menuName || '';
                             return item;
                         })
                     } else {
@@ -112,7 +113,7 @@
                 this.$Modal.confirm({
                     title: '確定刪除？',
                     onOk: () => {
-                        DelMenuInfoId({infoId:params.infoId}).then(res => {
+                        DelMenuInfoId(params.infoId).then(res => {
                             if (res.status) {
                                 this.$Notice.success({title: '成功', desc: '删除成功'});
                                 this.getDataList()

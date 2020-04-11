@@ -6,7 +6,7 @@
             <UserTwoNav :navList="navList" :title="title" :search="true"></UserTwoNav>
             <!-- 右侧 -->
             <div class="content-right">
-                <UserConType :type="type" :dataList="dataList" :dataInfo="dataInfo"></UserConType>
+                <UserConType :type="type" :dataList="dataList" :dataInfo="dataInfo" :isBack="type !==3?true:false"></UserConType>
             </div>
         </div>
     </div>
@@ -16,6 +16,7 @@
     import UserTwoBanner from "./components/user-two-banner"
     import UserTwoNav from "./components/user-two-nav"
     import UserConType from "./components/user-content-type"
+    import {GetMenuArticle} from "../../api/web";
 
     export default {
         name: "capsule",
@@ -23,7 +24,14 @@
         components: {UserTwoBanner, UserTwoNav, UserConType},
         data() {
             return {
-                navList: [],
+                navList: [
+                    {
+                        to: {
+                            path: 'search',
+                        },
+                        name: '站内搜索'
+                    },
+                ],
                 title: '站内搜索',
                 dataList: [],
                 dataInfo: {},
@@ -37,21 +45,31 @@
         },
         methods: {
             init() {
-                this.getMenu()
+                this.getData()
             },
-            getMenu() {
-                this.navList = [
-                    {
-                        to: {
-                            path: 'search',
-                        },
-                        name: '站内搜索'
-                    },
-                ]
+            getData(msg) {
+                GetMenuArticle({searchInfo: msg}).then(res => {
+                    if (res.status && res.data) {
+                        if (res.data.length > 1) {
+                            this.dataList = res.data;
+                            this.type = 2;
+                        } else {
+                            this.dataInfo = res.data[0];
+                            this.type = 3;
+                        }
+                    } else {
+                        this.$Notice.warning({title: '错误', desc: res.msg})
+                    }
+                })
             },
         },
         mounted() {
-            this.init()
+            this.bus.$on("searchInfo", msg => {
+                this.getData(msg)
+            });
+        },
+        beforeDestroy() {
+            this.bus.$off("searchInfo");
         }
     }
 </script>

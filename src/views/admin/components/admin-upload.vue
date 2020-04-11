@@ -1,8 +1,8 @@
 <template>
-    <div class='banner-modal'>
+    <div class='admin-upload'>
         <ul class="file-list">
             <template v-for="(list,index) in fileArrS">
-            <li :key="index">
+            <li :key="index" class="file-list">
                 <template v-if="!list.name">
                     <p v-if="index ===0 ">当前显示的：</p>
                     <img :src="list" :style="{width:`${widthImg}px`,height:`${heightImg}px`}">
@@ -11,7 +11,7 @@
                     <p>替换上传的：</p>
                     <span style="font-size:15px;color:#000">文件名: {{ list.name }}</span>
                 </template>
-                <Icon type="ios-close" size="25" color="red" @click="delFileList(index)"></Icon>
+                <Icon type="ios-close" size="30" color="red" @click="delFileList(index)"></Icon>
             </li>
                 </template>
         </ul>
@@ -25,8 +25,8 @@
                 :multiple="multiple"
                 type="drag"
                 :action="action"
-                style="display: inline-block;width:58px;">
-            <div style="width: 58px;height:58px;line-height: 58px;float: right">
+                style="display: inline-block;width:58px;margin-top: 20px;">
+            <div style="width: 58px;height:58px;line-height: 58px;float: right;">
                 <Icon type="ios-camera" size="20"></Icon>
             </div>
         </Upload>
@@ -37,7 +37,7 @@
 <script>
 
     export default {
-        name: "home-banner",
+        name: "admin-upload",
         props: {
             multiple: {
                 type: Boolean,
@@ -108,6 +108,13 @@
 </script>
 
 <style lang='less' scoped>
+    .admin-upload{
+        .file-list{
+            .li{
+                margin: 5px 0;
+            }
+        }
+    }
     .home-banner-upload-list {
         display: inline-block;
         margin-right: 10px;

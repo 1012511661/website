@@ -1,10 +1,8 @@
 <template>
-    <div class='banner-modal'>
-        <AdminModal v-model="showModal" title="添加轮播图" @on-ok="onSave">
-            <AdminUpload :multiple="true" :defaultList="[...srcList]" :widthImg="300" :heightImg="185"
-                         footTitle="图片尺寸 1920*400" ref="AdminUpload"></AdminUpload>
-        </AdminModal>
-    </div>
+    <AdminModal v-model="showModal" title="添加轮播图" @on-ok="onSave">
+        <AdminUpload :multiple="true" :defaultList="[...srcList]" :widthImg="400" :heightImg="80"
+                     footTitle="图片尺寸 1920*400" ref="AdminUpload" class="upload-banner"></AdminUpload>
+    </AdminModal>
 </template>
 
 <script>
@@ -30,15 +28,15 @@
         data() {
             return {
                 showModal: this.value,
-                srcList:[]
+                srcList: []
             }
         },
         watch: {
             showModal(newV) {
                 this.$emit("input", newV);
-                if(newV){
+                if (newV) {
                     this.srcList = this.defaultList;
-                    window.console.log(this.defaultList,'defaultList')
+                    window.console.log(this.defaultList, 'defaultList')
                 }
             },
             value(newV) {
@@ -71,5 +69,8 @@
 </script>
 
 <style lang='less' scoped>
-
+    @import "../../../../styles/mixin";
+    .upload-banner {
+        .modalContent()
+    }
 </style>

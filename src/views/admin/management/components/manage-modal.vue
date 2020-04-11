@@ -11,7 +11,7 @@
                         <Input v-model="manageFrom.menuName" placeholder="请输入名称" :maxlength="32" class="input"/>
                     </FormItem>
                     <FormItem label="排序" prop="menuNumber">
-                        <InputNumber v-model="manageFrom.menuNumber" :max="999" :min="1"/>
+                        <InputNumber v-model="manageFrom.menuNumber" :max="6" :min="1"/>
                     </FormItem>
                     <FormItem label="是否显示" prop="menuShow">
                         <RadioGroup v-model="manageFrom.menuShow">
@@ -26,8 +26,8 @@
                 </Form>
             </template>
             <template v-else>
-                <AdminUpload :multiple="false" :defaultList="[manageFrom.menuPicture]"
-                             footTitle="图片尺寸 1920*200" ref="AdminUpload"></AdminUpload>
+                <AdminUpload :multiple="false" :defaultList="[manageFrom.menuPicture]" :widthImg="400" :heightImg="185"
+                             footTitle="图片尺寸 1920*300" ref="AdminUpload"></AdminUpload>
             </template>
         </div>
     </AdminModal>
@@ -111,13 +111,7 @@
                 if (!this.activeId) {
                     this.$refs.manageFrom.validate((valid) => {
                         if (valid) {
-                            let _arr = this.$refs.AdminUpload.fileArr;
-                            var formData = new FormData();
-                            formData.append('menuId', this.manageFrom.menuId);
-                            for (var i = 0; i < _arr.length; i++) {
-                                formData.append(`files`, _arr[i]); // 文件对象
-                            }
-                            PutMenuUpdate(formData).then(res => {
+                            PutMenuUpdate(this.manageFrom).then(res => {
                                 if (res.status) {
                                     this.$Notice.success({title: '成功', desc: '修改信息'})
                                     this.showModal = false;

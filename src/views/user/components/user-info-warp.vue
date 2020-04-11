@@ -6,7 +6,7 @@
         <div class='data-info'>
             <p class="title">{{dataInfo.infoName||dataInfo.cdName}}</p>
             <p class="time">时间：{{dataInfo.gmtCreated|timeFilter}}</p>
-            <div v-html="dataInfo.infoId||dataInfo.cdInfo" class="content"></div>
+            <div v-html="dataInfo.infoInfo||dataInfo.cdInfo" class="content"></div>
         </div>
     </div>
 

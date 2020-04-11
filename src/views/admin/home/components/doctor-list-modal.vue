@@ -7,7 +7,7 @@
                         <Input v-model="infoFrom.regionName" placeholder="请输入地区" :maxlength="32" class="input"/>
                     </FormItem>
                     <FormItem label="排序">
-                        <InputNumber v-model="infoFrom.regionNumber" :max="999" :min="1"/>
+                        <InputNumber v-model="infoFrom.regionNumber" :max="len" :min="1"/>
                     </FormItem>
                 </Form>
             </div>
