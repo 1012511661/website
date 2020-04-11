@@ -44,13 +44,16 @@
                         this.bannerSrc = i.pictures[0];
                         this.title = i.menuName;
                         for (let k = 0; k < i.menuPos.length; k++) {
-                            let _obj = {
-                                to: {
-                                    path: i.menuPos[k].menuId.toLowerCase()
-                                },
-                                name: i.menuPos[k].menuName
-                            };
-                            this.navList.push(_obj)
+                            if(i.menuPos[k].menuShow){
+                                let _obj = {
+                                    to: {
+                                        path: i.menuPos[k].menuId.toLowerCase()
+                                    },
+                                    menuType:i.menuPos[k].menuType,
+                                    name: i.menuPos[k].menuName
+                                };
+                                this.navList.push(_obj)
+                            }
                         }
                     }
                 }

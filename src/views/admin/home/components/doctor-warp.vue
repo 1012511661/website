@@ -4,7 +4,7 @@
             <doctorListTable @show-user-table="onShowUserTable"></doctorListTable>
         </template>
         <template v-else>
-            <doctorUserTable @show-List-table="onShowListTable" ref="doctorUserTable"></doctorUserTable>
+            <doctorUserTable @show-List-table="onShowListTable" :regionName="regionName" ref="doctorUserTable"></doctorUserTable>
         </template>
     </div>
 </template>
@@ -19,12 +19,14 @@
         components: {doctorListTable, doctorUserTable},
         data() {
             return {
-                isShowListTable: true
+                isShowListTable: true,
+                regionName:''
             }
         },
         methods: {
             onShowUserTable(data) {
-                this.isShowListTable = false
+                this.isShowListTable = false;
+                this.regionName = data.regionName
                 this.$nextTick(() => {
                     this.$refs.doctorUserTable.getDataList(data.regionId);
                 })

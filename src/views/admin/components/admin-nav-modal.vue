@@ -13,7 +13,7 @@
                     </Select>
                 </FormItem>
                 <FormItem label="排序" prop="menuNumber">
-                    <InputNumber v-model="navFrom.menuNumber" :max="999" :min="1"/>
+                    <InputNumber v-model="navFrom.menuNumber" :max="4" :min="1"/>
                 </FormItem>
                 <FormItem label="是否显示" prop="menuShow">
                     <RadioGroup v-model="navFrom.menuShow">

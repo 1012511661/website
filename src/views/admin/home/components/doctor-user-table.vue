@@ -16,7 +16,12 @@
 
     export default {
         name: "doctor-user-table",
-        props: {},
+        props: {
+            regionName: {
+                type: String,
+                default: ''
+            }
+        },
         components: {AdminSearch, DoctorUserModal},
         data() {
             let operationList = [
@@ -43,7 +48,13 @@
                     },
                     {
                         title: '姓名',
-                        key: 'cdName'
+                        key: 'cdName',
+                        width: 200
+                    },
+                    {
+                        title: '所属地区',
+                        key: 'regionName',
+                        width: 200
                     },
                     {
                         title: '图片地址',
@@ -73,8 +84,11 @@
                 this.params.regionId = id;
                 GetRegionId(this.params).then(res => {
                     if (res.status) {
-                        this.dataList = res.data.dataList || []
-                    }else {
+                        this.dataList = (res.data.dataList || []).map(item => {
+                            item.regionName = this.regionName
+                            return item
+                        })
+                    } else {
                         this.$Notice.warning({title: '错误', desc: res.msg})
                     }
                 })
@@ -94,7 +108,7 @@
                 this.showUserModal = true;
                 this.id = params.cdId;
                 this.$refs.DoctorUserModal.infoFrom = deepCopy(params);
-                this.$refs.DoctorUserModal.srcList =[params.cdPicture];
+                this.$refs.DoctorUserModal.srcList = [params.cdPicture];
             },
             onDel(params) {
                 this.$Modal.confirm({
@@ -104,7 +118,7 @@
                             if (res.status) {
                                 this.$Notice.success({title: '成功', desc: '删除成功'});
                                 this.getDataList(this.regionId);
-                            }else{
+                            } else {
                                 this.$Notice.warning({title: '错误', desc: res.msg})
                             }
                         })

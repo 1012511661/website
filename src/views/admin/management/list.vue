@@ -61,8 +61,6 @@
                 dataList: []
             }
         },
-        computed: {},
-        watch: {},
         methods: {
             init() {
                 this.getDataList()
