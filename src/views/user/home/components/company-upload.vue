@@ -19,7 +19,7 @@
                             <div class="img-list" v-if="!isShowSmall">
                                 <!-- img-list -->
                                 <div class="item">
-                                    <img :src="dataList[currentIndex].infoPicture||errImg"
+                                    <img :src="dataList[currentIndex].infoPicture||'http://img.zcool.cn/community/01aa925b890fc3a80120245cd2ccfb.gif'"
                                          style="">
                                 </div>
                                 <!-- 按鈕組-->
@@ -63,7 +63,6 @@
         data() {
             return {
                 dataList: [],
-                errImg: require("../../../../assets/404.jpg"),
                 currentIndex: 0,   //默认显示图片
                 timer: null,    //定时器
                 value1: 0,

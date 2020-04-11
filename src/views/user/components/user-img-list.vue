@@ -6,7 +6,7 @@
                     <Col :xs="12" :sm="8" :md="8" :lg="8">
                         <div class="list-warp" style="" :key="item.id" @click="goInfo(item)">
                             <div class="list-cell">
-                                <img :src="item.infoPicture" class="src-warp">
+                                <img :src="item.infoPicture||'http://img.zcool.cn/community/01aa925b890fc3a80120245cd2ccfb.gif'" class="src-warp">
                             </div>
                             <p class="title">
                                 {{item.infoName}}

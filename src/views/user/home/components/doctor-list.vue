@@ -16,7 +16,7 @@
                 <Col :xs="12" :sm="6" :md="6" :lg="6">
                     <div class="list-warp" :key="index" @click="goDoctorInfo(item)">
                         <div class="img-cell">
-                            <img :src="item.cdSrc||'http://health.people.com.cn/NMediaFile/2019/1121/MAIN201911211553000135939888312.jpg'">
+                            <img :src="item.cdPicture||'http://img.zcool.cn/community/01aa925b890fc3a80120245cd2ccfb.gif'">
                         </div>
                         <p class="title">
                             <span>姓名：</span>{{item.cdName}}
