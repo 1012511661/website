@@ -38,7 +38,8 @@
                     </Form>
                 </template>
                 <template v-else>
-                    <AdminUpload :multiple="false" :defaultList="[infoFrom.companyPicture]" :widthImg="150" :heightImg="210" footTitle="图片尺寸 150*210"></AdminUpload>
+                    <AdminUpload :multiple="false" :defaultList="[infoFrom.companyPicture]" :widthImg="150"
+                                 :heightImg="210" footTitle="图片尺寸 150*210" ref="AdminUpload"></AdminUpload>
                 </template>
             </div>
         </AdminModal>
@@ -48,7 +49,7 @@
 <script>
     import AdminModal from '../../../../components/web-modal'
     import AdminUpload from '../../components/admin-upload'
-    import {PutCompany} from '../../../../api/web'
+    import {PutCompany, PostCompanyImport} from '../../../../api/web'
     import AdminTabs from '../../components/admin-tabs'
 
     export default {
@@ -124,20 +125,41 @@
                 this.activeId = index;
             },
             onSave() {
-                this.$refs.infoFrom.validate(valid => {
-                    if (valid) {
-                        PutCompany(this.infoFrom).then(res => {
-                            if (res.status) {
-                                this.showModal = false;
-                                this.$emit('upload-footer')
-                            } else {
-                                this.$Notice.warning({title: '错误', desc: res.msg})
-                            }
-                        })
-                    } else {
-                        this.$Notice.warning({title: '错误', desc: '请填写正确信息'})
+                window.console.log(this.activeId, 'this.activeId')
+                if (!this.activeId) {
+                    this.$refs.infoFrom.validate(valid => {
+                        if (valid) {
+                            PutCompany(this.infoFrom).then(res => {
+                                if (res.status) {
+                                    // this.showModal = false;
+                                    this.$Notice.success({title: '成功', desc: '基本信息修改成功'})
+                                    this.$emit('upload-footer')
+                                } else {
+                                    this.$Notice.warning({title: '错误', desc: res.msg})
+                                }
+                            })
+                        } else {
+                            this.$Notice.warning({title: '错误', desc: '请填写正确信息'})
+                        }
+                    })
+                } else {
+                    let _arr = this.$refs.AdminUpload.fileArr;
+                    var formData = new FormData();
+                    if (_arr.length) {
+                        formData.append(`file`, _arr[0]);
                     }
-                })
+                    formData.append('companyId', this.infoFrom.companyId);
+                    PostCompanyImport(formData).then(res => {
+                        if (res.status) {
+                            // this.showModal = false;
+                            this.$Notice.success({title: '成功', desc: '二维码修改成功'})
+                            this.$emit('upload-footer')
+                        } else {
+                            this.$Notice.warning({title: '错误', desc: res.msg})
+                        }
+                    })
+                }
+
             }
         }
     }

@@ -7,7 +7,6 @@
 </template>
 
 <script>
-    import {GetMenuArticle} from '../../api/web'
 
     export default {
         name: "logo-search",

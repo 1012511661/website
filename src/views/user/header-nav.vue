@@ -213,7 +213,7 @@
         cursor: pointer;
         .center();
         margin: 0 5px;
-        width: 120px;
+        min-width: 120px;
         color: @nav-default-color;
     }
 

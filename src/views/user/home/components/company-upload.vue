@@ -99,12 +99,12 @@
                 }, 3000)
             },
             // 详情
-            goDataInfo(item){
+            goDataInfo(item) {
                 this.$router.push({
                     name: "DATAINFO",
                     params: {
                         item: item,
-                        type:1
+                        type: 1
                     }
                 });
             },
@@ -112,7 +112,7 @@
                 this.bus.$on("companyVideoUrl", msg => {
                     this.videoSrc = msg
                 });
-                GetMenuArticle({searchInfo: ''}).then(res => {
+                GetMenuArticle({searchInfo: '', type: 0}).then(res => {
                     if (res.status) {
                         this.dataList = res.data.splice(0, 7) || [];
                     } else {

@@ -76,8 +76,6 @@
                 }
             }
         },
-        computed: {},
-        watch: {},
         methods: {
             getDataList(id) {
                 this.regionId = id;
@@ -100,6 +98,8 @@
             onAddItem() {
                 this.showUserModal = true;
                 this.id = null;
+                // this.$refs.DoctorUserModal.infoFrom = {};
+                this.$refs.DoctorUserModal.srcList = [];
             },
             onUploadUser() {
                 this.getDataList(this.regionId);

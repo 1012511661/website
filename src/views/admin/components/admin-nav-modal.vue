@@ -96,7 +96,8 @@
                         PutMenuUpdate(this.navFrom).then(res => {
                             if (res.status) {
                                 this.showModal = false;
-                                this.$emit('upload-nav-table')
+                                this.$emit('upload-nav-table');
+                                this.$Notice.success({title: '成功', desc: '修改成功'})
                             } else {
                                 this.$Notice.warning({title: '错误', desc: res.msg})
                             }

@@ -6,7 +6,8 @@
             <UserTwoNav :navList="navList" :title="title" :search="true"></UserTwoNav>
             <!-- 右侧 -->
             <div class="content-right">
-                <UserConType :type="type" :dataList="dataList" :dataInfo="dataInfo" :isBack="type !==3?true:false"></UserConType>
+                <UserConType :type="type" :dataList="dataList" :dataInfo="dataInfo"
+                             :isBack="type !==3?true:false"></UserConType>
             </div>
         </div>
     </div>
@@ -48,7 +49,7 @@
                 this.getData()
             },
             getData(msg) {
-                GetMenuArticle({searchInfo: msg}).then(res => {
+                GetMenuArticle({searchInfo: msg, type: 1}).then(res => {
                     if (res.status && res.data) {
                         if (res.data.length > 1) {
                             this.dataList = res.data;

@@ -58,7 +58,8 @@
                     },
                     {
                         title: '时间',
-                        key: 'gmtUpdated'
+                        key: 'gmtUpdated',
+                        width: 180
                     },
                     {
                         title: '父级名',
@@ -66,12 +67,13 @@
                     },
                     {
                         title: '父级类型',
-                        key: 'typeName'
+                        key: 'typeName',
+                        width: 120
                     },
                     {
                         title: '操作',
                         render: operationRender,
-                        width: 200
+                        width: 120
                     }
                 ],
                 dataList: [],

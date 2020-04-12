@@ -10,11 +10,11 @@
                                  footTitle="图片尺寸 250*185" ref="AdminUpload"></AdminUpload>
                 </FormItem>
                 <FormItem label="视频链接(只针对视频列表)">
-                    <Input v-model="infoFrom.videoUrl" placeholder="请输入" class="input"/>
+                    <Input v-model="infoFrom.videoUrl" type="textarea" :autosize="{minRows: 2,maxRows: 8}"
+                           placeholder="请输入" style="width: 100%"/>
                 </FormItem>
                 <FormItem label="内容">
-                    <div ref="websiteEditorElem" id="websiteEditorElem" style="height:300px;background: #ffffff">
-                    </div>
+                    <div ref="websiteEditorElem" id="websiteEditorElem" style="height:300px;background: #ffffff"></div>
                 </FormItem>
             </Form>
         </div>
@@ -61,7 +61,7 @@
                     infoName: '',
                     file: '',
                     infoInfo: '',
-                    videoUrl:''
+                    videoUrl: ''
                 },
                 infoRule: {
                     infoName: [
@@ -111,7 +111,7 @@
                             formData.append(`file`, _arr[0]);
                         }
                         formData.append(`infoName`, this.infoFrom.infoName);
-                        formData.append(`infoInfo`, this.phoneEditor.txt.html()||'');
+                        formData.append(`infoInfo`, this.phoneEditor.txt.html() || '');
                         formData.append(`menuId`, this.menuId);
                         formData.append(`videoUrl`, this.infoFrom.videoUrl);
                         // this.infoFrom.infoInfo = this.phoneEditor.txt.html();
@@ -122,6 +122,7 @@
                                 if (res.status) {
                                     this.showModal = false;
                                     this.$emit('upload-nav-table')
+                                    this.$Notice.success({title: '成功', desc: '修改成功'})
                                 } else {
                                     this.$Notice.warning({title: '错误', desc: res.msg})
                                 }
@@ -131,6 +132,7 @@
                                 if (res.status) {
                                     this.showModal = false;
                                     this.$emit('upload-nav-table')
+                                    this.$Notice.success({title: '成功', desc: '新增成功'})
                                 } else {
                                     this.$Notice.warning({title: '错误', desc: res.msg})
                                 }
@@ -143,7 +145,6 @@
             }
         },
         mounted() {
-
             this.Ewangeditor();
         }
     }

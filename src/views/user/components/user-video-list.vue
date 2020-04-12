@@ -6,7 +6,7 @@
                     <Col :xs="12" :sm="8" :md="8" :lg="8">
                         <div class="list-warp" style="" :key="item.id">
                             <div class="list-cell">
-                                <video :src="item.src"
+                                <video :src="item.videoUrl"
                                        controls="controls"
                                        class="src-warp"
                                 >

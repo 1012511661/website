@@ -45,5 +45,4 @@
 </script>
 
 <style lang='less' scoped>
-    //@import url($3); 引入公共css类
 </style>

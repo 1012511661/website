@@ -88,6 +88,8 @@
                 font-size: 16px;
                 padding: 0 10px;
                 line-height: 30px;
+                width: 100%;
+                min-width: 20vh;
             }
         }
     }

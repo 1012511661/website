@@ -23,20 +23,12 @@
                 menuId:''
             }
         },
-//监听属性 类似于data概念
-        computed: {},
-//监控data中的数据变化
-        watch: {},
-//方法集合
         methods: {
             init() {
                 this.$refs.AdminNavTable.getDataList('CAPSULE')
             },
             onViewInfoList(params) {
                 this.isShowNav = false;
-                // this.$nextTick((() => {
-                //     this.$refs.AdminNavInfoList.getDataList(params.menuId)
-                // }))
                 this.menuId = params.menuId
             },
             onBackNav() {

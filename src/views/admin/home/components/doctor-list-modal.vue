@@ -1,18 +1,16 @@
 <template>
-    <div class='doctor-list-modal'>
-        <AdminModal v-model="showModal" :title="title" @on-ok="onSave">
-            <div class="doctor-list-content">
-                <Form ref="infoFrom" :model="infoFrom" :rules="infoRules" :label-width="80">
-                    <FormItem label="地区" prop="regionName">
-                        <Input v-model="infoFrom.regionName" placeholder="请输入地区" :maxlength="32" class="input"/>
-                    </FormItem>
-                    <FormItem label="排序">
-                        <InputNumber v-model="infoFrom.regionNumber" :max="len" :min="1"/>
-                    </FormItem>
-                </Form>
-            </div>
-        </AdminModal>
-    </div>
+    <AdminModal v-model="showModal" :title="title" @on-ok="onSave">
+        <div class="doctor-list-content">
+            <Form ref="infoFrom" :model="infoFrom" :rules="infoRules" :label-width="80">
+                <FormItem label="地区" prop="regionName">
+                    <Input v-model="infoFrom.regionName" placeholder="请输入地区" :maxlength="32" class="input"/>
+                </FormItem>
+                <FormItem label="排序">
+                    <InputNumber v-model="infoFrom.regionNumber" :max="len" :min="1"/>
+                </FormItem>
+            </Form>
+        </div>
+    </AdminModal>
 </template>
 
 <script>
