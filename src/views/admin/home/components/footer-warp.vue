@@ -21,8 +21,7 @@
         </div>
         <div class="footer-cell">
             <p class="title">公司视频</p>
-            <video :src="infoFrom.companyVideoUrl" controls="controls" width="80%"
-                   height="60%"></video>
+            <video src="../../../../assets/conpany.mp4" controls="controls" width="80%" height="100%"></video>
         </div>
     </div>
 </template>
