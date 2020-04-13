@@ -10,11 +10,13 @@
         <div class="footer-cell">
             <p class="title">联系人列表</p>
             <template v-for="item in infoFrom.userPos">
-                <p :key="item.mobile">{{item.userName}}：{{item.mobile}}</p>
+                <template v-if="item.userName">
+                    <p :key="item.mobile">{{item.userName}}：{{item.mobile}}</p>
+                </template>
             </template>
         </div>
         <div class="footer-cell">
-            <p class="title">二维码   <i style="font-size: 14px">150*210</i></p>
+            <p class="title">二维码 <i style="font-size: 14px">150*210</i></p>
             <img :src="infoFrom.companyPicture" alt="">
         </div>
         <div class="footer-cell">
@@ -69,15 +71,18 @@
         .footer-cell {
             margin: 5px;
             padding: 10px 0;
+
             p {
                 margin: 5px;
                 font-size: 16px;
             }
-            .title{
+
+            .title {
                 font-size: 16px;
                 font-weight: 800;
                 border-bottom: 1px solid #c9cac8;
             }
+
             img {
                 width: 150px;
                 height: 210px;

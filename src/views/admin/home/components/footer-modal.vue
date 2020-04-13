@@ -83,11 +83,7 @@
                         {
                             userName: '',
                             mobile: ''
-                        },
-                        {
-                            userName: '',
-                            mobile: ''
-                        },
+                        }
                     ]
                 },
                 infoRules: {

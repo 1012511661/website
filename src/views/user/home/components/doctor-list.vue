@@ -14,11 +14,11 @@
         <Row class="content-warp">
             <template v-for="(item,index) in doctorList">
                 <Col :xs="12" :sm="6" :md="6" :lg="6">
-                    <div class="list-warp" :key="index">
+                    <div class="list-warp" :key="index" @click="goDoctorInfo(item)">
                         <div class="img-cell">
                             <img :src="item.cdPicture||'http://img.zcool.cn/community/01aa925b890fc3a80120245cd2ccfb.gif'">
                         </div>
-                        <p class="title name" @click.self="goDoctorInfo(item)">
+                        <p class="title name">
                             <span>姓名：</span>{{item.cdName}}
                         </p>
                         <p class="title">
@@ -168,6 +168,10 @@
                 padding: 10px;
                 text-align: center;
 
+                &:hover {
+                    cursor: pointer;
+                }
+
                 .img-cell {
                     img {
                         width: 200px;
@@ -183,9 +187,7 @@
                 .name {
                     text-decoration: underline;
 
-                    &:hover {
-                        cursor: pointer;
-                    }
+
                 }
             }
         }

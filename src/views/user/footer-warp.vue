@@ -1,29 +1,32 @@
 <template>
     <div class='foot-warp'>
-        <div class="foot-cell">
-            <Row>
-                <Col :xs="24" :sm="24" :md="8" :lg="8">
-                    <div class="comp block">
-                        <p class="">{{infoFrom.companyName}}(陕西)</p>
-                        <p>{{infoFrom.companyEmail}}</p>
-                        <p>{{infoFrom.companyMobile}}</p>
-                        <p>{{infoFrom.companyAddr}}</p>
-                    </div>
-                </Col>
-                <Col :xs="12" :sm="10" :md="{ span: 6, push:2 }" :lg="{ span: 6, push: 2 }">
-                    <div class="people block">
-                        <template v-for="item in infoFrom.userPos">
-                            <p :key="item.mobile">{{item.userName}}：{{item.mobile}}</p>
+        <Row class="foot-cell">
+            <Col :xs="24" :sm="24" :md="8" :lg="8">
+                <div class="comp block">
+                    <p class="">{{infoFrom.companyName}}</p>
+                    <p>{{infoFrom.companyEmail}}</p>
+                    <p>{{infoFrom.companyMobile}}</p>
+                    <p>{{infoFrom.companyAddr}}</p>
+                </div>
+            </Col>
+            <Col :xs="12" :sm="10" :md="{ span: 6, push:2 }" :lg="{ span: 6, push: 2 }">
+                <div class="people block">
+                    <template v-for="item in infoFrom.userPos">
+                        <template v-if="item.userName">
+                            <p>联系人：{{item.userName}} 电话：{{item.mobile}}</p>
                         </template>
-                    </div>
-                </Col>
-                <Col :xs="{ span: 10, push:2 }" :sm="{ span: 10, push:2 }" :md="{ span: 6, push: 2 }"
-                     :lg="{ span: 6, push:7 }">
-                    <div class="er-img">
-                        <img :src="infoFrom.companyPicture" alt="">
-                    </div>
-                </Col>
-            </Row>
+                    </template>
+                </div>
+            </Col>
+            <Col :xs="{ span: 10, push:2 }" :sm="{ span: 10, push:2 }" :md="{ span: 6, push: 2 }"
+                 :lg="{ span: 6, push:7 }">
+                <div class="er-img">
+                    <img :src="infoFrom.companyPicture" alt="">
+                </div>
+            </Col>
+        </Row>
+        <div>
+            <p>友情链接：</p>
         </div>
     </div>
 </template>
@@ -35,7 +38,7 @@
         name: "footer-warp",
         data() {
             return {
-                infoFrom:{}
+                infoFrom: {}
             }
         },
         methods: {
@@ -76,6 +79,7 @@
                     color: #fff;
                 }
             }
+
 
             img {
                 width: 150px;

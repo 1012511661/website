@@ -49,12 +49,12 @@
                     {
                         title: '姓名',
                         key: 'cdName',
-                        width: 200
+                        width: 150
                     },
                     {
                         title: '所属地区',
                         key: 'regionName',
-                        width: 200
+                        width: 150
                     },
                     {
                         title: '图片地址',
@@ -63,7 +63,7 @@
                     {
                         title: '操作',
                         render: operationRender,
-                        width: 200
+                        width: 120
                     }
                 ],
                 dataList: [],

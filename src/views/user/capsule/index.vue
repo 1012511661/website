@@ -67,7 +67,11 @@
 
 <style lang='less' scoped>
     @import "../../../styles/custom.less";
-
+    @media screen and (max-width: 996px) {
+        .content-right{
+            width: 100% !important;
+        }
+    }
     .capsule {
         .pc-cell {
             display: flex;
@@ -77,7 +81,7 @@
             min-height: 70vh;
 
             .content-right {
-                width: 100%;
+                width: 65vw;
                 border: 1px dashed #eee;
                 padding: 10px;
                 margin: 20px 0;

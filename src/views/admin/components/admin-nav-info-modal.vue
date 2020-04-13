@@ -14,7 +14,9 @@
                            placeholder="请输入" style="width: 100%"/>
                 </FormItem>
                 <FormItem label="内容">
-                    <div ref="websiteEditorElem" id="websiteEditorElem" style="height:300px;background: #ffffff"></div>
+                    <div ref="websiteEditorElem" id="websiteEditorElem" style="height:300px;background: #ffffff">
+                        <div v-html="infoFrom.infoInfo"></div>
+                    </div>
                 </FormItem>
             </Form>
         </div>
@@ -68,20 +70,20 @@
                         {required: true, message: '名称不能为空', trigger: 'blur'}
                     ],
                 },
-                phoneEditor: ''
+                editor: ''
             }
         },
         watch: {
             showModal(newV) {
                 this.$emit("input", newV);
                 if (!newV) {
-                    // this.phoneEditor = null;
+                    // this.editor = null;
                     this.infoFrom = {
                         infoName: '',
                         file: '',
                         infoInfo: '',
                     }
-                    this.phoneEditor.txt.clear()
+                    // this.editor.txt.clear()
                 } else {
                     this.infoFrom = this.info;
                 }
@@ -92,15 +94,18 @@
         },
         methods: {
             Ewangeditor() {
-                this.phoneEditor = new E(this.$refs.websiteEditorElem);
+                this.editor = new E(this.$refs.websiteEditorElem);
                 // 上传图片到服务器，base64形式
-                // this.phoneEditor.customConfig.uploadImgShowBase64 = true;
+                this.editor.customConfig.uploadImgShowBase64 = true;
                 // 隐藏网络图片
-                this.phoneEditor.customConfig.showLinkImg = true;
+                this.editor.customConfig.showLinkImg = true;
+                // this.editor.customConfig.onchange = html => {
+                //     this.infoFrom.infoInfo = html;
+                // };
                 // 创建一个富文本编辑器
-                this.phoneEditor.create();
+                this.editor.create();
                 // 富文本内容
-                this.phoneEditor.txt.html(`${this.infoFrom.infoInfo}`)
+                // this.editor.txt.html(`<div>${this.infoFrom.infoInfo}</div>`)
             },
             onSave() {
                 this.$refs.infoFrom.validate((valid) => {
@@ -111,10 +116,11 @@
                             formData.append(`file`, _arr[0]);
                         }
                         formData.append(`infoName`, this.infoFrom.infoName);
-                        formData.append(`infoInfo`, this.phoneEditor.txt.html() || '');
+                        formData.append(`infoInfo`, encodeURI(this.editor.txt.html()) || '');
                         formData.append(`menuId`, this.menuId);
                         formData.append(`videoUrl`, this.infoFrom.videoUrl);
-                        // this.infoFrom.infoInfo = this.phoneEditor.txt.html();
+                        // this.infoFrom.infoInfo = this.editor.txt.html();
+                        // encodeURI()
                         this.infoFrom.menuId = this.menuId;
                         if (this.infoFrom.infoId) {//修改
                             formData.append(`infoId`, this.infoFrom.infoId || null);
