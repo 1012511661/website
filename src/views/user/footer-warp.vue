@@ -24,10 +24,14 @@
                     <img :src="infoFrom.companyPicture" alt="">
                 </div>
             </Col>
+            <Col :span="24">
+                <div class="out-warp">
+                    <span> 友情链接：</span>
+                    <a href="http://www.xiuzheng.com/" target="_blank">修正药业</a>
+                    <a href="http://www.xzjyk.cn/" target="_blank"> 颈腰康事业部</a>
+                </div>
+            </Col>
         </Row>
-        <div>
-            <p>友情链接：</p>
-        </div>
     </div>
 </template>
 
@@ -64,7 +68,7 @@
     @import "../../styles/mixin.less";
 
     .foot-warp {
-        background: @content-deputy-color;
+        background: #606060;
         padding: 30px 50px;
 
         .foot-cell {
@@ -72,10 +76,10 @@
             margin: 0 auto;
 
             .block {
-                font-size: 16px;
+                font-size: 15px;
 
                 p {
-                    padding: 15px 0;
+                    padding: 10px 0;
                     color: #fff;
                 }
             }
@@ -85,6 +89,18 @@
                 width: 150px;
                 height: 210px;
                 object-fit: cover;
+            }
+
+            .out-warp {
+                border-top: 1px dashed #bdbdbd;
+                color: #bebebe;
+                padding-top: 10px;
+                a {
+                    color: #bebebe;
+                    padding: 0 15px;
+                    border-right: 1px solid #bdbdbd;
+                }
+
             }
         }
     }

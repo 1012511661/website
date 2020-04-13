@@ -6,10 +6,10 @@
                     <div class="title-warp video-title">
                         <span class="title">公司简介</span>
                     </div>
-<!--                    <video :src="videoSrc" controls="controls" class="video" width="100%"-->
-<!--                           height="250px"-->
-<!--                           style="padding-top: 5px;">-->
-<!--                    </video>-->
+                    <!--                    <video :src="videoSrc" controls="controls" class="video" width="100%"-->
+                    <!--                           height="250px"-->
+                    <!--                           style="padding-top: 5px;">-->
+                    <!--                    </video>-->
                     <video src="../../../../assets/conpany.mp4" controls="controls" class="video" width="100%"
                            height="250px"
                            style="padding-top: 5px;">
@@ -94,7 +94,6 @@
         methods: {
             gotoPage(index) {
                 this.currentIndex = index;
-                // clearInterval(this.timer)
             },
             //定时器
             runInv() {

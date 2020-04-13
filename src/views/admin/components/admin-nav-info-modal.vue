@@ -101,6 +101,7 @@
                 this.editor.customConfig.showLinkImg = true;
                 // this.editor.customConfig.onchange = html => {
                 //     this.infoFrom.infoInfo = html;
+                //     window.console.log(html,'1111')
                 // };
                 // 创建一个富文本编辑器
                 this.editor.create();
@@ -116,7 +117,7 @@
                             formData.append(`file`, _arr[0]);
                         }
                         formData.append(`infoName`, this.infoFrom.infoName);
-                        formData.append(`infoInfo`, encodeURI(this.editor.txt.html()) || '');
+                        formData.append(`infoInfo`, this.editor.txt.html() || '');
                         formData.append(`menuId`, this.menuId);
                         formData.append(`videoUrl`, this.infoFrom.videoUrl);
                         // this.infoFrom.infoInfo = this.editor.txt.html();
