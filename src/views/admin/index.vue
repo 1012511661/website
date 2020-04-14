@@ -30,41 +30,73 @@
 </template>
 <script>
     import HeaderWarp from "./header-warp"
+    import {GetMenuList} from "../../api/web";
+
     export default {
         name: "admin",
         components: {HeaderWarp},
         data() {
             return {
                 navList: [
-                    {
-                        menuId: "ADMIN_HOME",
-                        menuName: "首页",
-                    },
-                    {
-                        menuId: "ADMIN_MANAG",
-                        menuName: "栏目管理",
-                    },
-                    {
-                        menuId: "ADMIN_CAPSULE",
-                        menuName: "木竭胶囊",
-                    },
-                    {
-                        menuId: "ADMIN_EXPERTS",
-                        menuName: "专家义诊",
-                    },
-                    {
-                        menuId: "ADMIN_TRAINING",
-                        menuName: "技术培训",
-                    },
-                    {
-                        menuId: "ADMIN_CONTACT",
-                        menuName: "联系我们",
-                    },
+                    // {
+                    //     menuId: "ADMIN_HOME",
+                    //     menuName: "首页",
+                    // },
+                    // {
+                    //     menuId: "ADMIN_MANAG",
+                    //     menuName: "栏目管理",
+                    // },
+                    // {
+                    //     menuId: "ADMIN_CAPSULE",
+                    //     menuName: "木竭胶囊",
+                    // },
+                    // {
+                    //     menuId: "ADMIN_EXPERTS",
+                    //     menuName: "专家义诊",
+                    // },
+                    // {
+                    //     menuId: "ADMIN_TRAINING",
+                    //     menuName: "技术培训",
+                    // },
+                    // {
+                    //     menuId: "ADMIN_CONTACT",
+                    //     menuName: "联系我们",
+                    // },
+                    // {
+                    //     menuId: "ADMIN_VOTER",
+                    //     menuName: "投票人",
+                    // },
                 ]
             }
         },
-        methods: {},
+        methods: {
+            getMenuList() {
+                let _obj1 = {
+                    menuId: "ADMIN_MANAG",
+                    menuName: "栏目管理",
+                };
+                let _obj2 = {
+                    menuId: "ADMIN_VOTER",
+                    menuName: "投票人",
+                };
+                GetMenuList().then(res => {
+                    if (res.status) {
+                        this.navList = (res.data || []).map(item => {
+                            return {
+                                menuId: `ADMIN_${item.menuId}`,
+                                menuName: item.menuName,
+                            }
+                        })
+                        this.navList.splice(1, 0, _obj1);
+                        this.navList.push(_obj2);
+                    } else {
+                        this.$Notice.warning({title: '错误', desc: res.msg})
+                    }
+                })
+            },
+        },
         mounted() {
+            this.getMenuList()
         }
     }
 </script>
@@ -78,6 +110,7 @@
 
     .menu {
         padding: 10px;
+
         .title {
             font-size: 15px;
             color: @content-dark-color;

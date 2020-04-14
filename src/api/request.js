@@ -42,9 +42,9 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
     response => {
-        if (!response.data.status) {
-            window.console.log(response.data,'response.dataresponse.data')
-        }
+        // if (!response.data.status) {
+        //     window.console.log(response.data,'response.dataresponse.data')
+        // }
         return response.data
     },
     error => {

@@ -127,7 +127,7 @@
             font-size: 14px;
             background: url("../../../assets/two_black.png");
             margin-top: -50px;
-            margin-left: 90px;
+            /*margin-left: 90px;*/
             min-height: 50vh;
 
             .title {

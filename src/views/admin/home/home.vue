@@ -69,8 +69,6 @@
                 companyInfo: {}
             }
         },
-        computed: {},
-        watch: {},
         methods: {
             // banner
             goAddBanner() {

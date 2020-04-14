@@ -1,5 +1,5 @@
 <template>
-    <div class='two_banner' :style="{background: `url(${banner}) center center no-repeat`,backgroundSize:'auto 100%'}">
+    <div class='two_banner' :style="{background: `url(${banner}) no-repeat`,backgroundSize: 'cover',backgroundPosition: 'center'}">
     </div>
 </template>
 

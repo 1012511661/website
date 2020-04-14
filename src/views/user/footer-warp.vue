@@ -3,22 +3,22 @@
         <Row class="foot-cell">
             <Col :xs="24" :sm="24" :md="8" :lg="8">
                 <div class="comp block">
-                    <p class="">{{infoFrom.companyName}}</p>
-                    <p>{{infoFrom.companyEmail}}</p>
-                    <p>{{infoFrom.companyMobile}}</p>
-                    <p>{{infoFrom.companyAddr}}</p>
+                    <p>{{infoFrom.companyName}}</p>
+                    <p>邮箱：{{infoFrom.companyEmail}}</p>
+                    <p>电话：{{infoFrom.companyMobile}}</p>
+                    <p>地址：{{infoFrom.companyAddr}}</p>
                 </div>
             </Col>
-            <Col :xs="12" :sm="10" :md="{ span: 6, push:2 }" :lg="{ span: 6, push: 2 }">
+            <Col :xs="24" :sm="10" :md="{ span: 8, push:2 }" :lg="8">
                 <div class="people block">
                     <template v-for="item in infoFrom.userPos">
                         <template v-if="item.userName">
-                            <p>联系人：{{item.userName}} 电话：{{item.mobile}}</p>
+                            <p :key="item.mobile"><span>联系人：{{item.userName}}</span><span>电话：{{item.mobile}}</span></p>
                         </template>
                     </template>
                 </div>
             </Col>
-            <Col :xs="{ span: 10, push:2 }" :sm="{ span: 10, push:2 }" :md="{ span: 6, push: 2 }"
+            <Col :xs="24" :sm="{ span: 10, push:2 }" :md="8"
                  :lg="{ span: 6, push:7 }">
                 <div class="er-img">
                     <img :src="infoFrom.companyPicture" alt="">
@@ -69,11 +69,11 @@
 
     .foot-warp {
         background: #606060;
-        padding: 30px 50px;
 
         .foot-cell {
             max-width: 1000px;
             margin: 0 auto;
+            padding: 30px 50px;
 
             .block {
                 font-size: 15px;
@@ -81,6 +81,10 @@
                 p {
                     padding: 10px 0;
                     color: #fff;
+
+                    span {
+                        margin-right: 10px;
+                    }
                 }
             }
 
@@ -95,6 +99,7 @@
                 border-top: 1px dashed #bdbdbd;
                 color: #bebebe;
                 padding-top: 10px;
+
                 a {
                     color: #bebebe;
                     padding: 0 15px;

@@ -3,9 +3,7 @@
         <Carousel autoplay v-model="msg" loop @on-click="onClickCar">
             <template v-for="(item,index) in bannerList">
                 <CarouselItem :key="index">
-                    <div class="demo-carousel">
-                        <img :src="item" alt="" style=" object-fit: cover; width: 100%; height: 100%;">
-                    </div>
+                    <div class="demo-carousel" :style="{background: `url(${item}) no-repeat`,backgroundSize: 'cover',backgroundPosition: 'center'}"></div>
                 </CarouselItem>
             </template>
         </Carousel>

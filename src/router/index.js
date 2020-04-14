@@ -124,6 +124,23 @@ const routes = [
                     }
                 ]
             },
+            {
+                path:'voter',
+                name:'ADMIN_VOTER',
+                redirect: {name: "ADMIN_VOTER_LIST"},
+                component: () => import('../views/admin/voter/index.vue'),
+                children: [
+                    {
+                        path: 'list',
+                        name: 'ADMIN_VOTER_LIST',
+                        meta: {
+                            title: "投票人",
+                            require: true
+                        },
+                        component: () => import('../views/admin/voter/list.vue'),
+                    }
+                ]
+            }
         ]
     },
     // 普通

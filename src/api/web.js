@@ -38,7 +38,8 @@ export const PostCad = params => request.post("/cad", params);
 export const PutCad = params => request.put("/cad", params);
 // 删除候选人
 export const DelCadId = cdId => request.delete(`/cad/${cdId}`);
-
+// 查询投票人列表信息
+export const GetCadVoter = params => request.get(`/cad/voter`,{params});
 
 // 修改公司信息
 export const PutCompany = params => request.put("/company", params);
