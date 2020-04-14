@@ -37,7 +37,7 @@
 
 <script>
     import {GetRegion, GetRegionId} from '../../../../api/web'
-    import doctorModal from './docoor-modal'
+    import doctorModal from './doctor-modal'
 
     export default {
         name: "doctor-list",

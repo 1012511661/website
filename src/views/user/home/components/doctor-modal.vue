@@ -19,7 +19,7 @@
     import {PutVote} from '../../../../api/web'
 
     export default {
-        name: "docoor-modal",
+        name: "doctor-modal",
         props: {
             value: {
                 type: Boolean,
@@ -40,11 +40,11 @@
                 showModal: this.value,
                 doctorFrom: {
                     voterName: '',
-                    voterMobile: '',
+                    voterMobile: ''
                 },
                 doctorRule: {
                     voterName: [
-                        {required: true, message: '名称不能为空', trigger: 'blur'}
+                        {required: true, message: '姓名不能为空', trigger: 'blur'}
                     ],
                     voterMobile: [
                         {required: true, message: '请填写正确的手机号码', trigger: 'blur'},
@@ -72,13 +72,14 @@
                     if (valid) {
                         PutVote({cdId: this.id, ...this.doctorFrom}).then(res => {
                             if (res.status) {
-                                window.console.log(res, '123456')
+                                this.$Notice.success({title: '成功', desc: '投票成功'})
+                                this.showModal = false;
+                                this.$emit('upload-nav-table')
                             } else {
                                 this.$Notice.warning({title: '错误', desc: res.msg})
                             }
                         })
-                        // this.showModal = false;
-                        // this.$emit('upload-nav-table')
+
                     } else {
                         this.$Notice.warning({title: '错误', desc: '请填写正确信息'})
                     }
