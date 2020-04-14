@@ -296,12 +296,12 @@ const routes = [
     },
     // 404
     {
-        path: '/404',
+        path: '*',
         name: 'Error',
         meta: {
             title: '404-页面不存在'
         },
-        component: () => import('../views/no-router'),
+        component: () => import('../views/error'),
     }
 ];
 
