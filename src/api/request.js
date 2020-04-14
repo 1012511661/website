@@ -1,7 +1,7 @@
 import axios from "axios"
 
-axios.defaults.baseURL = "http://39.101.203.68:8082/ws";
-// axios.defaults.baseURL = "http://10.0.5.165:8082/ws";
+// axios.defaults.baseURL = "http://39.101.203.68:8082/ws";
+axios.defaults.baseURL = "http://10.0.5.165:8082/ws";
 
 // axios.defaults.baseURL = "/api";
 axios.defaults.timeout = 1000 * 500;//设置请求超时

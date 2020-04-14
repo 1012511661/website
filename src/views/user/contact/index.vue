@@ -67,19 +67,13 @@
 
 <style lang='less' scoped>
     @import "../../../styles/custom.less";
-
+    @import "../../../styles/mixin.less";
+    @media screen and (max-width: 996px) {
+        .content-right{
+            width: 100% !important;
+        }
+    }
     .contact {
-        .pc-cell{
-            display: flex;
-        }
-        .content-cell {
-            min-height: 70vh;
-            .content-right {
-                width: 100%;
-                border: 1px dashed #eee;
-                padding: 10px;
-                margin: 20px 0;
-            }
-        }
+        .data-info()
     }
 </style>

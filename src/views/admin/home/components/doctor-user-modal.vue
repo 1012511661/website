@@ -55,7 +55,7 @@
                     cdName: '',
                     cdMobile: '',
                     cdEmail: '',
-                    cdInfo:''
+                    cdInfo: ''
                 },
                 infoRules: {
                     cdName: [
@@ -106,7 +106,6 @@
             },
 
             onSave() {
-                window.console.log(this.editor.txt.html(),'this.editor.txt.html()')
                 this.$refs.infoFrom.validate((valid) => {
                     if (valid) {
                         this.infoFrom.regionId = this.regionId;
@@ -120,7 +119,7 @@
                         formData.append('cdEmail', this.infoFrom.cdEmail);
                         formData.append('cdMobile', this.infoFrom.cdMobile);
                         formData.append('regionId', this.regionId)
-                        formData.append('cdInfo', this.editor.txt.html());
+                        formData.append('cdInfo', this.editor.txt.html() || '');
                         if (this.infoFrom.cdId) {
                             formData.append('cdId', this.infoFrom.cdId || null);
                             PutCad(formData).then(res => {

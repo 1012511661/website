@@ -47,21 +47,21 @@
         components: {},
         data() {
             this.getNav = {
-                HOME: '首页',
-                CAPSULE: '木竭胶囊',
-                VIDEO: '视频宣传',
-                PARSING: '组方解析',
-                PROJECT: '木竭项目介绍',
-                EXPERTS: '专家义诊',
-                ADDRESS: '定点义诊',
-                INTRODUCTION: '专家简介',
-                DECLARED: '义诊宣告',
-                TRAINING: '技术培训',
-                THERAPY: '太极调衡疗法',
-                PHOTO: '培训合影',
-                CONTACT: '联系我们',
-                RECRUITMENT: '人才招聘',
-                COOPERATION: '定点合作登记'
+                // HOME: '首页',
+                // CAPSULE: '木竭胶囊',
+                // VIDEO: '视频宣传',
+                // PARSING: '组方解析',
+                // PROJECT: '木竭项目介绍',
+                // EXPERTS: '专家义诊',
+                // ADDRESS: '定点义诊',
+                // INTRODUCTION: '专家简介',
+                // DECLARED: '义诊宣告',
+                // TRAINING: '技术培训',
+                // THERAPY: '太极调衡疗法',
+                // PHOTO: '培训合影',
+                // CONTACT: '联系我们',
+                // RECRUITMENT: '人才招聘',
+                // COOPERATION: '定点合作登记'
             }
             return {
                 pathList: [], //路径数组
@@ -95,11 +95,25 @@
                         }
                     }
                 }
+            },
+            init() {
+                let menu = JSON.parse(sessionStorage.getItem('menu'));
+                for (let i of menu) {
+                    this.getNav[i.menuId] = i.menuName;
+                    if (i.menuPos.length) {
+                        for (let v of i.menuPos) {
+                            this.getNav[v.menuId] = v.menuName;
+                        }
+                    }
+                }
             }
         },
         created() {
             let $route = this.$route;
-            this.updateData($route)
+            this.init()
+            this.$nextTick(() => {
+                this.updateData($route)
+            })
         }
     }
 </script>

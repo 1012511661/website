@@ -66,7 +66,11 @@
         components: {},
         data() {
             return {
-                dataList: [],
+                dataList: [
+                    {
+                        infoPicture: ''
+                    }
+                ],
                 currentIndex: 0,   //默认显示图片
                 timer: null,    //定时器
                 value1: 0,
