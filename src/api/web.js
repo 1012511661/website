@@ -17,6 +17,8 @@ export const PutMenuInfo = params => request.put("/menu/info", params);
 export const GetMenuInfo = infoId => request.get(`/menu/info/${infoId}`);
 // 删除菜单下某菜单内容详情
 export const DelMenuInfoId = infoId => request.delete(`/menu/info/${infoId}`);
+// 根据菜单详情id列表查询详情信息
+export const GetMenuInfoId = infoId => request.get(`/menu/info/id/${infoId}`);
 
 // 查询所有的投票地区
 export const GetRegion = params => request.get("/region", {params});
@@ -40,6 +42,8 @@ export const PutCad = params => request.put("/cad", params);
 export const DelCadId = cdId => request.delete(`/cad/${cdId}`);
 // 查询投票人列表信息
 export const GetCadVoter = params => request.get(`/cad/voter`,{params});
+// 查询候选人详情
+export const GetCadInfoId = cdId => request.get(`/cad/info/${cdId}`);
 
 // 修改公司信息
 export const PutCompany = params => request.put("/company", params);

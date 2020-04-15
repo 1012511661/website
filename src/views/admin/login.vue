@@ -62,10 +62,10 @@
                             } else {
                                 this.$Notice.warning({title: '错误', desc: res.msg})
                             }
-                        }).catch(err=>{
-                            window.console.log(err,'11111111111')
+                        }).catch(err => {
+                            this.$Notice.warning({title: '错误', desc: '请刷新后重新登录'})
                         })
-                    }else{
+                    } else {
                         this.$Notice.warning({title: '错误', desc: '请填写正确信息'})
                     }
                 })

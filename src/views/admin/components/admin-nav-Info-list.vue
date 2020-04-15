@@ -12,8 +12,7 @@
     import {operation} from "../../../js/render";
     import AdminNavInfoModal from './admin-nav-info-modal'
     import AdminSearch from '../../../components/web-search'
-    import {deepCopy} from "../../../js/common";
-    import {GetMenuInfo, DelMenuInfoId} from '../../../api/web'
+    import {GetMenuInfo, DelMenuInfoId, GetMenuInfoId} from '../../../api/web'
     import moment from 'moment';
     import {typeCode} from "../../../js/code";
 
@@ -107,9 +106,14 @@
                 this.$emit('on-back-nav')
             },
             onEdit(params) {
-                this.showModal = true;
-                this.id = params.id;
-                this.info = deepCopy(params)
+                GetMenuInfoId(params.infoId).then(res => {
+                    if (res.status) {
+                        this.info = res.data;
+                        this.showModal = true;
+                    } else {
+                        this.$Notice.warning({title: '错误', desc: res.msg})
+                    }
+                })
             },
             onDel(params) {
                 this.$Modal.confirm({

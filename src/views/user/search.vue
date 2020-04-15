@@ -1,6 +1,6 @@
 <template>
     <div class="capsule">
-        <UserTwoBanner></UserTwoBanner>
+        <UserTwoBanner :banner="banner"></UserTwoBanner>
         <!-- 左侧 -->
         <div :class="{'content-cell':true, 'pc-cell':!isShowSmall}">
             <UserTwoNav :navList="navList" :title="title" :search="true"></UserTwoNav>
@@ -17,7 +17,7 @@
     import UserTwoBanner from "./components/user-two-banner"
     import UserTwoNav from "./components/user-two-nav"
     import UserConType from "./components/user-content-type"
-    import {GetMenuArticle} from "../../api/web";
+    import {GetMenuArticle, GetMenuInfoId} from "../../api/web";
 
     export default {
         name: "capsule",
@@ -36,7 +36,8 @@
                 title: '站内搜索',
                 dataList: [],
                 dataInfo: {},
-                type: 2
+                type: 2,
+                banner:require('../../assets/banner.jpg')
             }
         },
         computed: {
@@ -55,14 +56,23 @@
                             this.dataList = res.data;
                             this.type = 2;
                         } else {
-                            this.dataInfo = res.data[0];
-                            this.type = 3;
+                            this.getInfo(res.data[0])
                         }
                     } else {
                         this.$Notice.warning({title: '错误', desc: res.msg})
                     }
                 })
             },
+            getInfo(item){
+                GetMenuInfoId(item.infoId).then(res => {
+                    if (res.status) {
+                        this.dataInfo = res.data;
+                        this.type = 3;
+                    }else {
+                        this.$Notice.warning({title: '错误', desc: res.msg})
+                    }
+                })
+            }
         },
         mounted() {
             this.bus.$on("searchInfo", msg => {

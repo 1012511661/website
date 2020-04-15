@@ -28,6 +28,7 @@
 
 <script>
     import UserInfoWarp from "./user-info-warp"
+    import {GetMenuInfoId} from '../../../api/web'
 
     export default {
         name: "user-video-list",
@@ -48,8 +49,14 @@
         },
         methods: {
             goInfo(item) {
-                this.isShowInfo = false;
-                this.dataInfo = item;
+                GetMenuInfoId(item.infoId).then(res => {
+                    if (res.status) {
+                        this.dataInfo = res.data;
+                        this.isShowInfo = false;
+                    }else {
+                        this.$Notice.warning({title: '错误', desc: res.msg})
+                    }
+                })
             },
             // 返回
             goSteps() {
@@ -65,6 +72,7 @@
     .user-video-list {
         .list-warp {
             .list-warp();
+
             video {
                 width: 90%;
                 height: 185px;

@@ -1,6 +1,6 @@
 <template>
     <div class="doctor-info">
-        <UserTwoBanner></UserTwoBanner>
+        <UserTwoBanner :banner="banner"></UserTwoBanner>
         <!-- 左侧 -->
         <div :class="{'content-cell':true, 'pc-cell':!isShowSmall}">
             <UserTwoNav :navList="navList" :title="title" :search="true"></UserTwoNav>
@@ -16,6 +16,7 @@
     import UserTwoBanner from "./components/user-two-banner"
     import UserTwoNav from "./components/user-two-nav"
     import UserInfoWarp from "./components/user-info-warp"
+    import {GetCadInfoId,GetMenuInfoId} from "../../api/web"
 
     export default {
         name: "data-info",
@@ -26,6 +27,7 @@
                 navList: [],
                 title: '医生简介',
                 dataInfo: {},
+                banner: require('../../assets/banner.jpg')
             }
         },
         computed: {
@@ -38,14 +40,26 @@
                 this.getMenu()
             },
             getMenu() {
-                this.dataInfo = this.$route.params.item;
+                // this.dataInfo = this.$route.params.item;
+                let item = this.$route.params.item;
+                let type = this.$route.params.type;
                 let name;
-                if (this.$route.params.type === 1) {
+                if (type === 1) {
                     this.title = '公司动态';
                     name = '动态详情';
+                    GetMenuInfoId(item.infoId).then(res => {
+                        if (res.status) {
+                            this.dataInfo = res.data;
+                        }
+                    })
                 } else {
                     this.title = '医生简介';
                     name = '医生简介';
+                    GetCadInfoId(item.cdId).then(res => {
+                        if (res.status) {
+                            this.dataInfo = res.data;
+                        }
+                    })
                 }
                 this.navList = [
                     {
@@ -66,11 +80,13 @@
 <style lang='less' scoped>
     @import "../../styles/custom.less";
     @import "../../styles/mixin.less";
+
     @media screen and (max-width: 996px) {
-        .content-right{
+        .content-right {
             width: 100% !important;
         }
     }
+
     .doctor-info {
         .data-info()
     }
