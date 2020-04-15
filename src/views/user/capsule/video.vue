@@ -1,6 +1,6 @@
 <template>
     <div class='capsule-video'>
-        <UserConType :type="type" :dataList="dataList" :dataInfo="dataInfo"></UserConType>
+        <UserConType :type="type" :dataList="dataList" :dataInfo="dataInfo" :isBack="type!==3?true:false"></UserConType>
     </div>
 </template>
 

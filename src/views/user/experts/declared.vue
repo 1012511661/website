@@ -1,12 +1,12 @@
 <template>
     <div class='declared-introduction'>
-        <UserConType :type="type" :dataList="dataList" :dataInfo="dataInfo"></UserConType>
+        <UserConType :type="type" :dataList="dataList" :dataInfo="dataInfo" :isBack="type!==3?true:false"></UserConType>
     </div>
 </template>
 
 <script>
     import UserConType from "../components/user-content-type"
-    import { GetMenuInfo} from "../../../api/web";
+    import {GetMenuInfo, GetMenuInfoId} from "../../../api/web";
 
     export default {
         name: "declared",
@@ -15,7 +15,7 @@
             return {
                 dataList: [],
                 dataInfo: {},
-                type: 2
+                type: 2,
             }
         },
         methods: {
@@ -24,13 +24,23 @@
             },
             getDataList() {
                 GetMenuInfo('DECLARED').then(res => {
-                    if (res.status&&res.data.length) {
+                    if (res.status && res.data.length) {
                         this.type = res.data[0].menuPo.menuType || 0;
                         if (this.type != 3) {
                             this.dataList = res.data;
                         } else {
-                            this.dataInfo = res.data[0];
+                            this.getInfo(res.data[0])
                         }
+                    }
+                })
+            },
+            getInfo(item) {
+                GetMenuInfoId(item.infoId).then(res => {
+                    if (res.status) {
+                        this.dataInfo = res.data;
+                        this.type = 3;
+                    } else {
+                        this.$Notice.warning({title: '错误', desc: res.msg})
                     }
                 })
             }
